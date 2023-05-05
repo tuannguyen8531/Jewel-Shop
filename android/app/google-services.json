@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "870037710695",
+    "project_id": "jewel-project-17b95",
+    "storage_bucket": "jewel-project-17b95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870037710695:android:c03dd815326e9efa66f1c2",
+        "android_client_info": {
+          "package_name": "vn.edu.ntu.project.jewel_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870037710695-vddbqc187qn2sp78iefgcnu61m386poc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBWj1kKstFWNOV-MH_uyvtWGH5EFwH-f4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870037710695-vddbqc187qn2sp78iefgcnu61m386poc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
