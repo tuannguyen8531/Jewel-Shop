@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'widget_connect_firebase.dart';
 
 class MyFirebaseApp extends StatelessWidget {
@@ -21,9 +22,26 @@ class PageHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Shop"),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () {},
+          icon: SvgPicture.asset("assets/icons/menu.svg"),
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "Jewel Shop",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+              ),
+            ),
+          ],
+        ),
       ),
-      body: Center(
+      body: const Center(
         child: Text("Connected!"),
       ),
     );
