@@ -91,16 +91,24 @@ class PageHome extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 25),
+            const Text(
+              "Category",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: List.generate(
                   gems.length,
                   (index) => Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+                    padding: const EdgeInsets.all(6.0),
                     child: CategoryCard(
                       icon: gems[index].icon,
                       type: gems[index].title,
+                      press: gems[index].press,
                     ),
                   ),
                 ),
@@ -114,16 +122,21 @@ class PageHome extends StatelessWidget {
 }
 
 class CategoryCard extends StatelessWidget {
-  CategoryCard({Key? key, required this.icon, required this.type})
-      : super(key: key);
+  CategoryCard({
+    Key? key,
+    required this.icon,
+    required this.type,
+    required this.press,
+  }) : super(key: key);
   String icon;
   String type;
+  VoidCallback press;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 120,
       child: OutlinedButton(
-        onPressed: () {},
+        onPressed: press,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: Column(
