@@ -10,14 +10,15 @@ class MyFirebaseApp extends StatelessWidget {
     return MyFirebaseConnection(
       errorMessage: "Lỗi con mẹ nó rồi!",
       connectingMessage: "Xoay, xoay nữa, xoay mãi...",
-      builder: (context) => const PageHome(),
+      builder: (context) => PageHome(),
     );
   }
 }
 
 class PageHome extends StatelessWidget {
-  const PageHome({super.key});
-
+  PageHome({Key? key}) : super(key: key);
+  final TextEditingController txtSearch = TextEditingController();
+  GlobalKey<FormState> formState = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,17 +53,42 @@ class PageHome extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            SizedBox(height: 10),
-            Text(
-              "Explore our gemstone",
+          children: [
+            const SizedBox(height: 10),
+            const Text(
+              "Explore our gemstones",
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Text("we choose the best for you..."),
-            SizedBox(height: 25),
+            const Text("we choose the best for you..."),
+            const SizedBox(height: 25),
+            Form(
+              key: formState,
+              autovalidateMode: AutovalidateMode.disabled,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: txtSearch,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      ),
+                      hintText: "Search everything...",
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon: IconButton(
+                        onPressed: () => txtSearch.clear(),
+                        icon: const Icon(Icons.clear),
+                      ),
+                    ),
+                    validator: (value) {
+                      return value!.isEmpty ? "Nothing to search..." : null;
+                    },
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
