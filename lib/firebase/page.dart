@@ -48,17 +48,21 @@ class PageHome extends StatelessWidget {
         ],
       ),
       body: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const Text(
-              "Top Sellers",
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            SizedBox(height: 10),
+            Text(
+              "Explore our gemstone",
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
             ),
+            Text("we choose the best for you..."),
+            SizedBox(height: 25),
           ],
         ),
       ),
