@@ -32,7 +32,7 @@ class PageHome extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Text(
-              "Jewel Shop",
+              "Jewel Store",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 15,
@@ -40,9 +40,27 @@ class PageHome extends StatelessWidget {
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: SvgPicture.asset("assets/icons/notification.svg"),
+          ),
+        ],
       ),
-      body: const Center(
-        child: Text("Connected!"),
+      body: Container(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const Text(
+              "Top Sellers",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
