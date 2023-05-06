@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'demo_data.dart';
 import 'widget_connect_firebase.dart';
 
 class MyFirebaseApp extends StatelessWidget {
@@ -89,7 +90,55 @@ class PageHome extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 25),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(
+                  gems.length,
+                  (index) => Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: CategoryCard(
+                      icon: gems[index].icon,
+                      type: gems[index].title,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CategoryCard extends StatelessWidget {
+  CategoryCard({Key? key, required this.icon, required this.type})
+      : super(key: key);
+  String icon;
+  String type;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 120,
+      child: OutlinedButton(
+        onPressed: () {},
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            children: [
+              Image.asset(
+                icon,
+                height: 50,
+              ),
+              const SizedBox(height: 5),
+              Text(
+                type,
+                style: TextStyle(color: Colors.amber),
+              ),
+            ],
+          ),
         ),
       ),
     );

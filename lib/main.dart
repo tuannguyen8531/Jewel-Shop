@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jewel_project/firebase/page.dart';
+import 'package:jewel_project/firebase/pagehome.dart';
 
 void main() {
   runApp(const MyApp());
