@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jewel_project/firebase/home.dart';
+import 'package:jewel_project/firebase/pagelistall.dart';
 import 'demo_data.dart';
 import 'widget_connect_firebase.dart';
 
@@ -11,7 +13,7 @@ class MyFirebaseApp extends StatelessWidget {
     return MyFirebaseConnection(
       errorMessage: "Lỗi con mẹ nó rồi!",
       connectingMessage: "Xoay, xoay nữa, xoay mãi...",
-      builder: (context) => PageHome(),
+      builder: (context) => HomePage(),
     );
   }
 }
@@ -127,7 +129,14 @@ class PageHome extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PageList(),
+                        ),
+                      );
+                    },
                     child: const Text(
                       "See all",
                       style: TextStyle(color: Colors.black54),
@@ -227,7 +236,10 @@ class ProductCard extends StatelessWidget {
         shadowColor: Colors.blue,
         child: Column(
           children: [
-            Image.network(image, height: 180,),
+            Image.network(
+              image,
+              height: 180,
+            ),
             Text(name),
             Text(
               "\$$price",
@@ -276,4 +288,3 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
-
