@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:jewel_project/firebase/demo_data.dart';
+import 'package:jewel_project/firebase/pagedetail.dart';
 import 'package:jewel_project/firebase/jewel_data.dart';
 
 class PageList extends StatelessWidget {
@@ -59,21 +59,28 @@ class PageList extends StatelessWidget {
                   crossAxisSpacing: 10,
                   childAspectRatio: 0.8,
                   children: gemstones
-                      .map((gem) => Card(
-                    elevation: 1,
-                    shadowColor: Colors.blue,
-                    child: Column(
-                      children: [
-                        Image.network(gem.jewel.image),
-                        Text(gem.jewel.name),
-                        Text(
-                          "\$${gem.jewel.price.toString()}",
-                          style: const TextStyle(color: Colors.red),
-                        )
-                      ],
+                      .map((gem) => GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gem),),
+                      );
+                    },
+                    child: Card(
+                      elevation: 1,
+                      shadowColor: Colors.blue,
+                      child: Column(
+                        children: [
+                          Image.network(gem.jewel.image),
+                          Text(gem.jewel.name),
+                          Text(
+                            "\$${gem.jewel.price.toString()}",
+                            style: const TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
                     ),
-                  ))
-                      .toList(),
+                      )).toList(),
                 ),
               );
             }

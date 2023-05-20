@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/firebase/jewel_data.dart';
 import 'package:jewel_project/firebase/app.dart';
+import 'package:jewel_project/firebase/pagedetail.dart';
 import 'package:jewel_project/firebase/pagelistall.dart';
 
 import 'demo_data.dart';
@@ -158,7 +159,10 @@ class HomePage extends StatelessWidget {
                             price: gemstones[0].jewel.price.toString(),
                             image: gemstones[0].jewel.image,
                             press: () {
-                              txtSearch.text = gemstones[0].jewel.name;
+                              Navigator.push(
+                                  context, 
+                                  MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[0]),),
+                              );
                             },
                           ),
                           ProductCard(
@@ -166,7 +170,10 @@ class HomePage extends StatelessWidget {
                             price: gemstones[1].jewel.price.toString(),
                             image: gemstones[1].jewel.image,
                             press: () {
-                              txtSearch.text = gemstones[1].jewel.name;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[1]),),
+                              );
                             },
                           ),
                         ],
@@ -179,7 +186,10 @@ class HomePage extends StatelessWidget {
                             price: gemstones[2].jewel.price.toString(),
                             image: gemstones[2].jewel.image,
                             press: () {
-                              txtSearch.text = gemstones[2].jewel.name;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[2]),),
+                              );
                             },
                           ),
                           ProductCard(
@@ -187,7 +197,10 @@ class HomePage extends StatelessWidget {
                             price: gemstones[3].jewel.price.toString(),
                             image: gemstones[3].jewel.image,
                             press: () {
-                              txtSearch.text = gemstones[3].jewel.name;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[3]),),
+                              );
                             },
                           ),
                         ],
@@ -200,7 +213,10 @@ class HomePage extends StatelessWidget {
                             price: gemstones[4].jewel.price.toString(),
                             image: gemstones[4].jewel.image,
                             press: () {
-                              txtSearch.text = gemstones[4].jewel.name;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[4]),),
+                              );
                             },
                           ),
                           ProductCard(
@@ -208,7 +224,10 @@ class HomePage extends StatelessWidget {
                             price: gemstones[5].jewel.price.toString(),
                             image: gemstones[5].jewel.image,
                             press: () {
-                              txtSearch.text = gemstones[5].jewel.name;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[5]),),
+                              );
                             },
                           ),
                         ],

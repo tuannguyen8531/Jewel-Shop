@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:jewel_project/firebase/home.dart';
+import 'package:jewel_project/firebase/pagehome.dart';
 import 'package:jewel_project/firebase/pagelistall.dart';
 import 'demo_data.dart';
 import 'widget_connect_firebase.dart';
