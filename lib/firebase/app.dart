@@ -272,7 +272,7 @@ class CategoryCard extends StatelessWidget {
           padding: const EdgeInsets.all(4.0),
           child: Column(
             children: [
-              Image.asset(
+              Image.network(
                 icon,
                 height: 50,
               ),

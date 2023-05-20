@@ -3,9 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/firebase/jewel_data.dart';
 import 'package:jewel_project/firebase/app.dart';
 import 'package:jewel_project/firebase/pagedetail.dart';
+import 'package:jewel_project/firebase/pagelist.dart';
 import 'package:jewel_project/firebase/pagelistall.dart';
-
-import 'demo_data.dart';
+import 'package:jewel_project/firebase/type_data.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -107,21 +107,48 @@ class HomePage extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(
-                            gems.length,
-                                (index) => Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: CategoryCard(
-                                icon: gems[index].icon,
-                                type: gems[index].title,
-                                press: gems[index].press,
-                              ),
-                            ),
-                          ),
-                        ),
+                      FutureBuilder<List<JewelTypeSnapshot>>(
+                        future: JewelTypeSnapshot.getListJewelType(),
+                        builder: (context, snap) {
+                          if(snap.hasError) {
+                            return const Center(
+                              child: Text("Error!"),
+                            );
+                          }
+                          else {
+                            if(!snap.hasData) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            else {
+                              var listTypes = snap.data!;
+                              return SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: List.generate(
+                                    listTypes.length,
+                                        (index) => Padding(
+                                      padding: const EdgeInsets.all(6.0),
+                                      child: CategoryCard(
+                                        icon: listTypes[index].jewelType.iconType,
+                                        type: listTypes[index].jewelType.nameType,
+                                        press: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => PageTypes(type: listTypes[index].jewelType.idType),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+                        },
                       ),
                       const SizedBox(height: 5),
                       Row(

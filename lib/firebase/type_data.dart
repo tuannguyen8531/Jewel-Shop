@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class JewelType {
-  String idType, nameType;
+  String idType, nameType, iconType;
 
   JewelType({
     required this.idType,
     required this.nameType,
+    required this.iconType,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'idType': idType,
       'nameType': nameType,
+      'iconType': iconType,
     };
   }
 
@@ -19,6 +21,7 @@ class JewelType {
     return JewelType(
       idType: map['idType'] as String,
       nameType: map['nameType'] as String,
+      iconType: map['iconType'] as String,
     );
   }
 }

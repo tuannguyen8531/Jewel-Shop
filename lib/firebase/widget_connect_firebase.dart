@@ -38,18 +38,13 @@ class _MyFirebaseConnectionState extends State<MyFirebaseConnection> {
     else if(!isConnected) {
       return Center(
         child: Container(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Image.asset("assets/images/jewel_shop.png"),
               const CircularProgressIndicator(),
-              Text(
-                widget.connectingMessage!,
-                style: const TextStyle(
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
             ],
           ),
         ),
