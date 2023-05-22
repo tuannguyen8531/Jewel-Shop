@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/firebase/jewel_data.dart';
 import 'package:jewel_project/firebase/pagedetail.dart';
+import 'package:jewel_project/firebase/sidemenu.dart';
 
 class PageTypes extends StatelessWidget {
   PageTypes({super.key,
@@ -11,32 +12,40 @@ class PageTypes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset("assets/icons/menu.svg"),
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                "Jewel Store",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                ),
+      drawer: const SideMenu(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: SvgPicture.asset("assets/icons/menu.svg"),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "Jewel Store",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
               ),
-            ],
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset("assets/icons/notification.svg"),
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: SvgPicture.asset("assets/icons/notification.svg"),
+          ),
+        ],
+      ),
         body: FutureBuilder<List<JewelSnapshot>>(
           future: JewelSnapshot.getListJewels(),
           builder: (context, snapshot) {

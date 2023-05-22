@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/firebase/pagedetail.dart';
 import 'package:jewel_project/firebase/jewel_data.dart';
+import 'package:jewel_project/firebase/sidemenu.dart';
 
 class PageList extends StatelessWidget {
   const PageList({super.key});
@@ -9,12 +10,20 @@ class PageList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const SideMenu(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {},
-          icon: SvgPicture.asset("assets/icons/menu.svg"),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: SvgPicture.asset("assets/icons/menu.svg"),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,

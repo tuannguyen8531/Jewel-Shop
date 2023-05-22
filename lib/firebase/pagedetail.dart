@@ -2,7 +2,8 @@
 
 
 import 'package:flutter/material.dart';
-
+import 'package:jewel_project/firebase/cart_data.dart';
+import 'package:jewel_project/firebase/pagecart.dart';
 import 'jewel_data.dart';
 
 
@@ -39,38 +40,46 @@ class PageDetail extends StatelessWidget {
           //Stackwidget cho phép chúng ta xếp chồng nhiều layer lên nhau.
           // Widget có nhiều children và sắp xếp chúng từ dưới lên trên.
           // Vì vậy, mục đầu tiên là dưới cùng và cuối cùng là trên cùng.
-          Stack(
-            children: [
-              IconButton(
-                onPressed: () {
-
-                },
-                icon: const Icon(
-                  Icons.shopping_cart_rounded,
-                  size: 40,
-                  color: Colors.black,
-                ),
-              ),
-              // vi trí của icon số lượng trong giỏ hàng
-              Positioned(
-                top: 4,
-                left: 3,
-                child: Container(
-                    height: 22,
-                    width: 22,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.orange,
+          StreamBuilder<List<ProductItemSnapshot>>(
+            stream: ProductItemSnapshot.getAllProductItem(),
+            builder: (context, snapshot) {
+              var list = snapshot.data!;
+              return Stack(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const PageCart(),),);
+                    },
+                    icon: const Icon(
+                      Icons.shopping_cart_rounded,
+                      size: 30,
+                      color: Colors.grey,
                     ),
-                    child:const Center(
-                      child:Text(
-                        "0",
-                        style: TextStyle( fontSize: 12,fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                )
-              ),
-            ],
+                  ),
+                  // vi trí của icon số lượng trong giỏ hàng
+                  Positioned(
+                      top: 4,
+                      left: 25,
+                      child: Container(
+                        height: 22,
+                        width: 22,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.orange,
+                        ),
+                        child: Center(
+                          child: Text(
+                            list.length.toString(),
+                            style: TextStyle( fontSize: 12,fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -202,18 +211,62 @@ class PageDetail extends StatelessWidget {
                     ),
                     const SizedBox( height: 25,),
                    // nút add mặt hàng vào giỏ hàng
-                    Center(
-                      child: SizedBox(
-                        width: 200,
-                        height:  48,
-                        child: ElevatedButton(
-                            onPressed:(){ } ,
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orange ,
-                                shape: const StadiumBorder(),
+                    StreamBuilder<List<ProductItemSnapshot>>(
+                      stream: ProductItemSnapshot.getAllProductItem(),
+                      builder: (context, cart) {
+                        bool isAdded = false;
+                        var list = cart.data!;
+                        for(var item in list) {
+                          if(item.productItem.id == jewelSnapshot.jewel.id) {
+                            isAdded = true;
+                            break;
+                          }
+                        }
+                        if(isAdded) {
+                          return Center(
+                            child: SizedBox(
+                              width: 200,
+                              height:  48,
+                              child: ElevatedButton(
+                                onPressed:(){
+
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.grey ,
+                                  shape: const StadiumBorder(),
+                                ),
+                                child: const Text("ADDED"),
+                              ),
                             ),
-                            child: const Text("ADD TO CART")),
-                        ),
+                          );
+                        }
+                        else {
+                          return Center(
+                            child: SizedBox(
+                              width: 200,
+                              height:  48,
+                              child: ElevatedButton(
+                                onPressed:(){
+                                  ProductItem product = ProductItem(
+                                    id: jewelSnapshot.jewel.id,
+                                    name: jewelSnapshot.jewel.name,
+                                    size: jewelSnapshot.jewel.size,
+                                    image: jewelSnapshot.jewel.image,
+                                    price: jewelSnapshot.jewel.price,
+                                    amount: 1,
+                                  );
+                                  ProductItemSnapshot.add(product);
+                                } ,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.orange ,
+                                  shape: const StadiumBorder(),
+                                ),
+                                child: const Text("ADD TO CART"),
+                              ),
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),

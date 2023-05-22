@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SideMenu(),
+      drawer: const SideMenu(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -164,7 +164,7 @@ class HomePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            "Our product",
+                            "Our products",
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
