@@ -5,6 +5,7 @@ import 'package:jewel_project/firebase/app.dart';
 import 'package:jewel_project/firebase/pagedetail.dart';
 import 'package:jewel_project/firebase/pagelist.dart';
 import 'package:jewel_project/firebase/pagelistall.dart';
+import 'package:jewel_project/firebase/sidemenu.dart';
 import 'package:jewel_project/firebase/type_data.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,12 +16,20 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: SideMenu(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {},
-          icon: SvgPicture.asset("assets/icons/menu.svg"),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: SvgPicture.asset("assets/icons/menu.svg"),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,

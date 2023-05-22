@@ -43,8 +43,7 @@ class PageDetail extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  // di chuyển qua trang giỏ hàng
-                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => ()));
+
                 },
                 icon: const Icon(
                   Icons.shopping_cart_rounded,
