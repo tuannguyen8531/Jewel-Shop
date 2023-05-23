@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/data/jewel_data.dart';
@@ -66,6 +68,7 @@ class PageHome extends StatelessWidget {
             }
             else {
               var gemstones = snapshot.data!;
+              var listRandom = randomShowProduct(gemstones);
               return SingleChildScrollView(
                 child: Container(
                   padding: const EdgeInsets.all(10.0),
@@ -191,51 +194,24 @@ class PageHome extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ProductCard(
-                            name: gemstones[0].jewel.name,
-                            price: gemstones[0].jewel.price.toString(),
-                            image: gemstones[0].jewel.image,
+                            name: gemstones[listRandom[0]].jewel.name,
+                            price: gemstones[listRandom[0]].jewel.price.toString(),
+                            image: gemstones[listRandom[0]].jewel.image,
                             press: () {
                               Navigator.push(
                                   context, 
-                                  MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[0]),),
+                                  MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[listRandom[0]]),),
                               );
                             },
                           ),
                           ProductCard(
-                            name: gemstones[1].jewel.name,
-                            price: gemstones[1].jewel.price.toString(),
-                            image: gemstones[1].jewel.image,
+                            name: gemstones[listRandom[1]].jewel.name,
+                            price: gemstones[listRandom[1]].jewel.price.toString(),
+                            image: gemstones[listRandom[1]].jewel.image,
                             press: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[1]),),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ProductCard(
-                            name: gemstones[2].jewel.name,
-                            price: gemstones[2].jewel.price.toString(),
-                            image: gemstones[2].jewel.image,
-                            press: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[2]),),
-                              );
-                            },
-                          ),
-                          ProductCard(
-                            name: gemstones[3].jewel.name,
-                            price: gemstones[3].jewel.price.toString(),
-                            image: gemstones[3].jewel.image,
-                            press: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[3]),),
+                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[listRandom[1]]),),
                               );
                             },
                           ),
@@ -245,24 +221,51 @@ class PageHome extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ProductCard(
-                            name: gemstones[4].jewel.name,
-                            price: gemstones[4].jewel.price.toString(),
-                            image: gemstones[4].jewel.image,
+                            name: gemstones[listRandom[2]].jewel.name,
+                            price: gemstones[listRandom[2]].jewel.price.toString(),
+                            image: gemstones[listRandom[2]].jewel.image,
                             press: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[4]),),
+                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[listRandom[2]]),),
                               );
                             },
                           ),
                           ProductCard(
-                            name: gemstones[5].jewel.name,
-                            price: gemstones[5].jewel.price.toString(),
-                            image: gemstones[5].jewel.image,
+                            name: gemstones[listRandom[3]].jewel.name,
+                            price: gemstones[listRandom[3]].jewel.price.toString(),
+                            image: gemstones[listRandom[3]].jewel.image,
                             press: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[5]),),
+                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[listRandom[3]]),),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ProductCard(
+                            name: gemstones[listRandom[4]].jewel.name,
+                            price: gemstones[listRandom[4]].jewel.price.toString(),
+                            image: gemstones[listRandom[4]].jewel.image,
+                            press: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[listRandom[4]]),),
+                              );
+                            },
+                          ),
+                          ProductCard(
+                            name: gemstones[listRandom[5]].jewel.name,
+                            price: gemstones[listRandom[5]].jewel.price.toString(),
+                            image: gemstones[listRandom[5]].jewel.image,
+                            press: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => PageDetail(jewelSnapshot: gemstones[listRandom[5]]),),
                               );
                             },
                           ),
@@ -278,4 +281,17 @@ class PageHome extends StatelessWidget {
       ),
     );
   }
+}
+
+List<int> randomShowProduct(List<JewelSnapshot> list) {
+  int max = list.length;
+  List<int> randomNumbers = [];
+  while(randomNumbers.length < 6) {
+    var random = Random().nextInt(max);
+    while(randomNumbers.contains(random)) {
+      random = Random().nextInt(max);
+    }
+    randomNumbers.add(random);
+  }
+  return randomNumbers;
 }
