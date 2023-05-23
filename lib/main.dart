@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jewel_project/firebase/app.dart';
+
+import 'auth/page_login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           bodyMedium: TextStyle(color: Colors.black54),
         ),
       ),
-      home: const MyFirebaseApp(),
+      home: const JewelApp(),
     );
   }
 }

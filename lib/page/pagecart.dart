@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:jewel_project/firebase/cart_data.dart';
-import 'package:jewel_project/firebase/sidemenu.dart';
+import 'package:jewel_project/data/cart_data.dart';
+import 'package:jewel_project/page/dialogconfirm.dart';
+import 'package:jewel_project/page/sidemenu.dart';
 
 class PageCart extends StatelessWidget {
   const PageCart({Key? key}) : super(key: key);
@@ -107,7 +108,7 @@ class PageCart extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      listProducts[index].productItem.price.toString(),
+                                      "\$ ${listProducts[index].productItem.price.toString()}",
                                       style: const TextStyle(
                                         fontSize: 16 ,
                                         fontWeight:  FontWeight.bold,
@@ -218,7 +219,7 @@ class PageCart extends StatelessWidget {
                           Padding(
                             padding:  const EdgeInsets.symmetric( horizontal: 10),
                             child:  Row(
-                              mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment:  MainAxisAlignment.end,
                               children: [
                                 const Text(
                                   "Total: ",
@@ -227,12 +228,13 @@ class PageCart extends StatelessWidget {
                                     fontWeight:  FontWeight.w600,
                                   ),),
                                 Text(
-                                  getTotal(listProducts).toString(),
+                                  "\$ ${getTotal(listProducts).toString()}",
                                   style:  const TextStyle(
                                     color: Colors.orange,
                                     fontSize: 20,
                                     fontWeight:  FontWeight.w600,
-                                  ),),
+                                  ),
+                                ),
                               ],
                             ),),
                         ],
@@ -245,7 +247,9 @@ class PageCart extends StatelessWidget {
                           width: 200,
                           height:  48,
                           child: ElevatedButton(
-                              onPressed:(){ } ,
+                              onPressed:(){
+                                showConfirmDialog(context);
+                              } ,
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.orange ,
                                   shape: const StadiumBorder(),

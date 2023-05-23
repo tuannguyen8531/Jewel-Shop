@@ -2,9 +2,9 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:jewel_project/firebase/cart_data.dart';
-import 'package:jewel_project/firebase/pagecart.dart';
-import 'jewel_data.dart';
+import 'package:jewel_project/data/cart_data.dart';
+import 'package:jewel_project/data/jewel_data.dart';
+import 'package:jewel_project/page/pagecart.dart';
 
 
 
@@ -72,7 +72,7 @@ class PageDetail extends StatelessWidget {
                         child: Center(
                           child: Text(
                             list.length.toString(),
-                            style: TextStyle( fontSize: 12,fontWeight: FontWeight.bold),
+                            style: const TextStyle( fontSize: 12,fontWeight: FontWeight.bold),
                           ),
                         ),
                       )
@@ -214,57 +214,71 @@ class PageDetail extends StatelessWidget {
                     StreamBuilder<List<ProductItemSnapshot>>(
                       stream: ProductItemSnapshot.getAllProductItem(),
                       builder: (context, cart) {
-                        bool isAdded = false;
-                        var list = cart.data!;
-                        for(var item in list) {
-                          if(item.productItem.id == jewelSnapshot.jewel.id) {
-                            isAdded = true;
-                            break;
-                          }
-                        }
-                        if(isAdded) {
-                          return Center(
-                            child: SizedBox(
-                              width: 200,
-                              height:  48,
-                              child: ElevatedButton(
-                                onPressed:(){
-
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.grey ,
-                                  shape: const StadiumBorder(),
-                                ),
-                                child: const Text("ADDED"),
-                              ),
-                            ),
+                        if(cart.hasError) {
+                          return const Center(
+                            child: Text("Error"),
                           );
                         }
                         else {
-                          return Center(
-                            child: SizedBox(
-                              width: 200,
-                              height:  48,
-                              child: ElevatedButton(
-                                onPressed:(){
-                                  ProductItem product = ProductItem(
-                                    id: jewelSnapshot.jewel.id,
-                                    name: jewelSnapshot.jewel.name,
-                                    size: jewelSnapshot.jewel.size,
-                                    image: jewelSnapshot.jewel.image,
-                                    price: jewelSnapshot.jewel.price,
-                                    amount: 1,
-                                  );
-                                  ProductItemSnapshot.add(product);
-                                } ,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.orange ,
-                                  shape: const StadiumBorder(),
+                          if(!cart.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          else {
+                            bool isAdded = false;
+                            var list = cart.data!;
+                            for(var item in list) {
+                              if(item.productItem.id == jewelSnapshot.jewel.id) {
+                                isAdded = true;
+                                break;
+                              }
+                            }
+                            if(isAdded) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 200,
+                                  height:  48,
+                                  child: ElevatedButton(
+                                    onPressed:(){
+
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.grey ,
+                                      shape: const StadiumBorder(),
+                                    ),
+                                    child: const Text("ADDED"),
+                                  ),
                                 ),
-                                child: const Text("ADD TO CART"),
-                              ),
-                            ),
-                          );
+                              );
+                            }
+                            else {
+                              return Center(
+                                child: SizedBox(
+                                  width: 200,
+                                  height:  48,
+                                  child: ElevatedButton(
+                                    onPressed:(){
+                                      ProductItem product = ProductItem(
+                                        id: jewelSnapshot.jewel.id,
+                                        name: jewelSnapshot.jewel.name,
+                                        size: jewelSnapshot.jewel.size,
+                                        image: jewelSnapshot.jewel.image,
+                                        price: jewelSnapshot.jewel.price,
+                                        amount: 1,
+                                      );
+                                      ProductItemSnapshot.add(product);
+                                    } ,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.orange ,
+                                      shape: const StadiumBorder(),
+                                    ),
+                                    child: const Text("ADD TO CART"),
+                                  ),
+                                ),
+                              );
+                            }
+                          }
                         }
                       },
                     ),

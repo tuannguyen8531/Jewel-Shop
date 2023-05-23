@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:jewel_project/firebase/jewel_data.dart';
-import 'package:jewel_project/firebase/pagedetail.dart';
-import 'package:jewel_project/firebase/sidemenu.dart';
+import 'package:jewel_project/data/jewel_data.dart';
+import 'package:jewel_project/page/pagedetail.dart';
+import 'package:jewel_project/page/sidemenu.dart';
 
 class PageTypes extends StatelessWidget {
   PageTypes({super.key,

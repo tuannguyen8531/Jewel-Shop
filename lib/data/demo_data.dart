@@ -52,3 +52,18 @@ List<Gemstone> gemstones = [
       name: "Star Ruby",
       price: "37000"),
 ];
+
+class User {
+  String id, name, email, address, phone;
+  bool isUpdated = false;
+
+  User({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.address,
+    required this.phone,
+  });
+}
+
+User user = User(id: "01", name: "Zen Edward", email: "zenedward.2002@gmail.com", address: "VN", phone: "0123456789");

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:jewel_project/firebase/jewel_data.dart';
-import 'package:jewel_project/firebase/app.dart';
-import 'package:jewel_project/firebase/pagedetail.dart';
-import 'package:jewel_project/firebase/pagelist.dart';
-import 'package:jewel_project/firebase/pagelistall.dart';
-import 'package:jewel_project/firebase/sidemenu.dart';
-import 'package:jewel_project/firebase/type_data.dart';
+import 'package:jewel_project/data/jewel_data.dart';
+import 'package:jewel_project/page/component.dart';
+import 'package:jewel_project/page/pagedetail.dart';
+import 'package:jewel_project/page/pagelist.dart';
+import 'package:jewel_project/page/pagelistall.dart';
+import 'package:jewel_project/page/sidemenu.dart';
+import 'package:jewel_project/data/type_data.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class PageHome extends StatelessWidget {
+  PageHome({Key? key}) : super(key: key);
   final TextEditingController txtSearch = TextEditingController();
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
