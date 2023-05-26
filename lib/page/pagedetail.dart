@@ -1,6 +1,7 @@
 
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jewel_project/data/cart_data.dart';
 import 'package:jewel_project/data/jewel_data.dart';
@@ -30,12 +31,31 @@ class PageDetail extends StatelessWidget {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(jewelSnapshot.jewel.name, style: const TextStyle(color: Colors.black),),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              jewelSnapshot.jewel.name,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+              ),
+            ),
+          ],
+        ),
         backgroundColor: Colors.white,
         //thuộc tính elevation(độ cao) tạo hiệu ứng bóng(shadow effect) cho nút.
         elevation: 8.0,
         // nút quay lại trang chính
-        leading: const BackButton( color:  Colors.black,),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            CupertinoIcons.left_chevron,
+            color: Colors.black,
+          ),
+        ),
         actions: [
           //Stackwidget cho phép chúng ta xếp chồng nhiều layer lên nhau.
           // Widget có nhiều children và sắp xếp chúng từ dưới lên trên.

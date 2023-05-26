@@ -27,6 +27,29 @@ class SideMenu extends StatelessWidget {
               thickness: 1,
             ),
           ),
+          Column(
+            children: [
+              ListTile(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) {
+                      return PageHome();
+                    },),
+                  );
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.home_filled, color: Colors.orange,),
+                ),
+                title: const Text(
+                  "Home",
+                  style: TextStyle(color: Colors.orange),
+                ),
+              ),
+            ],
+          ),
           MenuTitle(title: "Home", icon: Icons.home_filled, destination: PageHome(),),
           MenuTitle(title: "Products", icon: Icons.diamond, destination: const PageList(),),
           MenuTitle(title: "Cart", icon: Icons.shopping_cart, destination: const PageCart(),),
@@ -40,7 +63,7 @@ class SideMenu extends StatelessWidget {
           ),
           MenuTitle(title: "User Info", icon: Icons.account_box, destination: const PageUserInfo(),),
           MenuTitle(title: "About Us", icon: Icons.message_outlined,),
-          const SizedBox(height: 350,),
+          const SizedBox(height: 300,),
           Column(
             children: [
               ListTile(
@@ -60,7 +83,7 @@ class SideMenu extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

@@ -98,7 +98,17 @@ class PageHome extends StatelessWidget {
                                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                 ),
                                 hintText: "Search everything...",
-                                prefixIcon: const Icon(Icons.search),
+                                prefixIcon: IconButton(
+                                  icon: const Icon(Icons.search),
+                                  onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PageTypes(type: txtSearch.text),
+                                      ),
+                                    )
+                                  },
+                                ),
                                 suffixIcon: IconButton(
                                   onPressed: () => txtSearch.clear(),
                                   icon: const Icon(Icons.clear),

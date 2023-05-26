@@ -1,8 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/data/jewel_data.dart';
 import 'package:jewel_project/page/pagedetail.dart';
-import 'package:jewel_project/page/sidemenu.dart';
 
 class PageTypes extends StatelessWidget {
   PageTypes({super.key,
@@ -11,41 +11,46 @@ class PageTypes extends StatelessWidget {
   String type;
   @override
   Widget build(BuildContext context) {
+    String name;
+    switch(type) {
+      case "ER" : name = "Emerald"; break;
+      case "DA" : name = "Diamond"; break;
+      case "RB" : name = "Ruby"; break;
+      case "SP" : name = "Sapphire"; break;
+      default : name = "Gemstone"; break;
+    }
     return Scaffold(
-      drawer: const SideMenu(),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              icon: SvgPicture.asset("assets/icons/menu.svg"),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
-          },
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              "Jewel Store",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              CupertinoIcons.left_chevron,
+              color: Colors.black,
+            ),
+          ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                name,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                ),
               ),
+            ],
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: SvgPicture.asset("assets/icons/notification.svg"),
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset("assets/icons/notification.svg"),
-          ),
-        ],
-      ),
         body: FutureBuilder<List<JewelSnapshot>>(
           future: JewelSnapshot.getListJewels(),
           builder: (context, snapshot) {
@@ -64,7 +69,10 @@ class PageTypes extends StatelessWidget {
                 var list = snapshot.data!;
                 List<JewelSnapshot> gems = [];
                 for(var gem in list) {
-                  if(gem.jewel.idType==type) gems.add(gem);
+                  if(gem.jewel.idType==type ||
+                      gem.jewel.name.toLowerCase().contains(type) ||
+                      gem.jewel.name.contains(type)
+                  ) gems.add(gem);
                 }
                 return Padding(
                   padding: const EdgeInsets.all(15.0),

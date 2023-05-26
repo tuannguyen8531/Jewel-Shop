@@ -78,23 +78,23 @@ class PageUserInfo extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 50,),
-                const Divider(),
+                const Divider(thickness: 1,),
                 const SizedBox(height: 10,),
                 ProfileMenuTitle(
                     text: "Zen Edward",
                     icon: Icons.person
                 ),
-                const Divider(),
+                const Divider(thickness: 1,),
                 ProfileMenuTitle(
                   text: "0123456789",
                   icon: Icons.phone
                 ),
-                const Divider(),
+                const Divider(thickness: 1,),
                 ProfileMenuTitle(
                     text: "zen.edward.7@gmail.com",
                     icon: Icons.email_outlined
                 ),
-                const Divider(),
+                const Divider(thickness: 1,),
                 ProfileMenuTitle(
                     text: "Khanh Hoa, Viet Nam",
                     icon: Icons.home
@@ -108,51 +108,7 @@ class PageUserInfo extends StatelessWidget {
   }
 }
 
-class ProfileMenuTitle extends StatelessWidget {
-  ProfileMenuTitle({
-    super.key,
-    required this.text,
-    required this.icon,
-  });
-  String text;
-  IconData icon;
 
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: Colors.black54.withOpacity(0.1)
-        ),
-        child: Icon(icon),
-      ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-            ),
-          ),
-        ],
-      ),
-      trailing: Container(
-        width: 35,
-        height: 35,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            color: Colors.black54.withOpacity(0.1)
-        ),
-        child: const Icon(Icons.chevron_right_sharp),
-      ),
-    );
-  }
-}
 
 
 

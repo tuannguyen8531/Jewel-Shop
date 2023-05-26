@@ -116,6 +116,7 @@ class BuildTextFormField extends StatelessWidget {
   final bool? obscureText;
   final IconButton? suffixIcon;
   const BuildTextFormField({
+    super.key,
     this.suffixIcon,
     this.obscureText,
     required this.keyboardType,
@@ -135,15 +136,15 @@ class BuildTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,
-        contentPadding: EdgeInsets.symmetric(vertical: 15),
-        label: Text(label,style: TextStyle(color: Colors.brown)),
+        contentPadding: const EdgeInsets.symmetric(vertical: 15),
+        label: Text(label,style: const TextStyle(color: Colors.brown)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: Colors.transparent),
+          borderSide: const BorderSide(color: Colors.transparent),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: Colors.orange),
+          borderSide: const BorderSide(color: Colors.orange),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -231,6 +232,52 @@ class InfoCard extends StatelessWidget {
           email,
           style: const TextStyle(color: Colors.black38),
         ),
+      ),
+    );
+  }
+}
+
+class ProfileMenuTitle extends StatelessWidget {
+  ProfileMenuTitle({
+    super.key,
+    required this.text,
+    required this.icon,
+  });
+  String text;
+  IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: Colors.black54.withOpacity(0.1)
+        ),
+        child: Icon(icon),
+      ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            text,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+            ),
+          ),
+        ],
+      ),
+      trailing: Container(
+        width: 35,
+        height: 35,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: Colors.black54.withOpacity(0.1)
+        ),
+        child: const Icon(Icons.chevron_right_sharp),
       ),
     );
   }

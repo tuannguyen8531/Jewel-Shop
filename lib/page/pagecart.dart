@@ -1,8 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/data/cart_data.dart';
 import 'package:jewel_project/page/dialogconfirm.dart';
-import 'package:jewel_project/page/sidemenu.dart';
 
 class PageCart extends StatelessWidget {
   const PageCart({Key? key}) : super(key: key);
@@ -10,26 +10,23 @@ class PageCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const SideMenu(),
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                icon: SvgPicture.asset("assets/icons/menu.svg"),
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              );
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
             },
+            icon: const Icon(
+              CupertinoIcons.left_chevron,
+              color: Colors.black,
+            ),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Text(
-                "Jewel Store",
+                "Cart",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 15,
