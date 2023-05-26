@@ -49,6 +49,7 @@ class PageUserInfo extends StatelessWidget {
           child: Center(
             child: Column(
               children: [
+                const SizedBox(height: 77,),
                 const SizedBox(
                   width: 120,
                   height: 120,
@@ -76,37 +77,78 @@ class PageUserInfo extends StatelessWidget {
                     showConfirmDialog(context, "Edit Info");
                   },
                 ),
-                const SizedBox(height: 30,),
+                const SizedBox(height: 50,),
                 const Divider(),
                 const SizedBox(height: 10,),
-                ListTile(
-                  leading: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Colors.black54.withOpacity(0.1)
-                    ),
-                    child: const Icon(Icons.email_outlined),
-                  ),
-                  title: Text(
-                    "Email",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  trailing: Container(
-                    width: 35,
-                    height: 35,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.black54.withOpacity(0.1)
-                    ),
-                    child: const Icon(Icons.chevron_right_sharp),
-                  ),
+                ProfileMenuTitle(
+                    text: "Zen Edward",
+                    icon: Icons.person
+                ),
+                const Divider(),
+                ProfileMenuTitle(
+                  text: "0123456789",
+                  icon: Icons.phone
+                ),
+                const Divider(),
+                ProfileMenuTitle(
+                    text: "zen.edward.7@gmail.com",
+                    icon: Icons.email_outlined
+                ),
+                const Divider(),
+                ProfileMenuTitle(
+                    text: "Khanh Hoa, Viet Nam",
+                    icon: Icons.home
                 ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ProfileMenuTitle extends StatelessWidget {
+  ProfileMenuTitle({
+    super.key,
+    required this.text,
+    required this.icon,
+  });
+  String text;
+  IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          color: Colors.black54.withOpacity(0.1)
+        ),
+        child: Icon(icon),
+      ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            text,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+            ),
+          ),
+        ],
+      ),
+      trailing: Container(
+        width: 35,
+        height: 35,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: Colors.black54.withOpacity(0.1)
+        ),
+        child: const Icon(Icons.chevron_right_sharp),
       ),
     );
   }
