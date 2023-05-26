@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:jewel_project/page/sidemenu.dart';
 
 class PageUserInfo extends StatelessWidget {
   const PageUserInfo({Key? key}) : super(key: key);
@@ -8,26 +8,23 @@ class PageUserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideMenu(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              icon: SvgPicture.asset("assets/icons/menu.svg"),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
           },
+          icon: const Icon(
+            CupertinoIcons.left_chevron,
+            color: Colors.black,
+          ),
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Text(
-              "Jewel Store",
+              "Profile",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 15,
@@ -42,19 +39,39 @@ class PageUserInfo extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
               children: [
-                Text("Profile", style: TextStyle(fontSize: 20,),),
+                const SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage("assets/images/background.png"),
+                  ),
+                ),
+                const SizedBox(height: 12,),
+                Text(
+                  "Zen Edward",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                Text(
+                  "zen.edward.7@gmail.com",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 12,),
+                SizedBox(
+                  width: 200,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Edit Profile"),
+                  ),
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

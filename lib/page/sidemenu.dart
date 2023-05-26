@@ -18,7 +18,7 @@ class SideMenu extends StatelessWidget {
       elevation: 0,
       child: Column(
         children: [
-          InfoCard(name: "Zen", role: "Admin"),
+          InfoCard(name: "Zen", email: "zen.edward.7@gmail.com"),
           const SizedBox(height: 15,),
           const Padding(
             padding: EdgeInsets.only(left: 24, right: 24),
@@ -47,7 +47,7 @@ class SideMenu extends StatelessWidget {
                 onTap: () async {
                   await FirebaseAuth.instance.signOut();
                   Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => PageLogin()), (route) => false);
+                      MaterialPageRoute(builder: (context) => const PageLogin()), (route) => false);
                 },
                 leading: const SizedBox(
                   height: 34,
@@ -110,30 +110,25 @@ class MenuTitle extends StatelessWidget {
 class InfoCard extends StatelessWidget {
   InfoCard({super.key,
     required this.name,
-    required this.role,
+    required this.email,
   });
-  String name, role;
+  String name, email;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8,25,8,10),
+      padding: const EdgeInsets.fromLTRB(0,25,0,0),
       child: ListTile(
         leading: const CircleAvatar(
-          maxRadius: 40,
-          backgroundColor: Colors.grey,
-          child: Icon(
-            CupertinoIcons.person,
-            color: Colors.orangeAccent,
-            size: 30,
-          ),
+          maxRadius: 25,
+          backgroundImage: AssetImage("assets/images/background.png"),
         ),
         title: Text(
           name,
-          style: const TextStyle(color: Colors.orange),
+          style: const TextStyle(color: Colors.black87),
         ),
         subtitle: Text(
-          role,
-          style: const TextStyle(color: Colors.orange),
+          email,
+          style: const TextStyle(color: Colors.black38),
         ),
       ),
     );
