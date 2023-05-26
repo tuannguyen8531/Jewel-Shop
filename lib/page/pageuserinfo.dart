@@ -76,6 +76,20 @@ class PageUserInfo extends StatelessWidget {
                     showConfirmDialog(context, "Edit Info");
                   },
                 ),
+                const SizedBox(height: 30,),
+                const Divider(),
+                const SizedBox(height: 10,),
+                ListTile(
+                  leading: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.black54.withOpacity(0.1)
+                    ),
+                    child: const Icon(Icons.email_outlined),
+                  ),
+                ),
               ],
             ),
           ),

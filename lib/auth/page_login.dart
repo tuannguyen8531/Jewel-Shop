@@ -355,35 +355,8 @@ class _PageLoginState extends State<PageLogin> {
           suffixIcon: null,
       ),
       actions: [
-        ButtonWidget(
-          context: context,
-          width: 155,
-          height: 40,
-          icon: Icons.verified_user,
-          label: "Verification",
-          press: () {
-            if (txtPhone.text != null) {
-              Navigator.of(context).pop();
-              signInWithPhoneNumber(
-                  context, phoneNumber: txtPhone.text,
-                  timeOut: 60,
-                  smsTesCode: "123456",
-                  smsCodePrompt: () => showPromtSMSCodeInput(context),
-                  onSigned: () => Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => PageHome(),),(route) => false)
-              );
-            }
-
-          },
-        ),
-        ButtonWidget(
-          context: context,
-          width: 120,
-          height: 40,
-          icon: Icons.cancel,
-          label: "Cancel",
-          press: () => Navigator.of(context).pop(),
-        ),
+        ButtonWidget(context: context, width: 120, height: 40, icon: Icons.check, label: "OK", press: (){Navigator.of(context, rootNavigator: true).pop(sms.text);}),
+        ButtonWidget(context: context, width: 120, height: 40, icon: Icons.cancel, label: "Cancel", press: (){Navigator.of(context, rootNavigator: true).pop(null);}),
       ],
     );
     String? res = await showDialog<String?>(
