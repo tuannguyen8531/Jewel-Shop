@@ -1,25 +1,25 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:jewel_project/auth/page_login.dart';
+import 'package:jewel_project/page/component.dart';
 import 'package:jewel_project/page/pagehome.dart';
-
-
 class PageRegister extends StatefulWidget {
 
-   const PageRegister({Key? key}) : super(key: key);
+   PageRegister({Key? key}) : super(key: key);
 
   @override
   State<PageRegister> createState() => _PageRegisterState();
 }
+
 class _PageRegisterState extends State<PageRegister> {
   GlobalKey<FormState> formState = GlobalKey<FormState>();
   bool togglePass = true; // dùng để ẩn hiện password
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
   TextEditingController txtConfirmPassword = TextEditingController();
+  TextEditingController txtPhone = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +30,8 @@ class _PageRegisterState extends State<PageRegister> {
           child: Column(
             children: [
                 Image.asset("assets/images/jewel_shop.png", height: 220 ,),
-                const Text(
-                  "Sign Up",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      fontSize: 20,
-                      height: 1.5,
-                  ),
-                ),
-                const SizedBox(height: 30,),
+                Text("Sign Up", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: 20, height: 1.5),),
+                SizedBox(height: 30,),
                 Form(
                   key:formState,
                   autovalidateMode: AutovalidateMode.disabled,
@@ -54,7 +46,7 @@ class _PageRegisterState extends State<PageRegister> {
                         obscureText: false,
                         suffixIcon: null,
                       ),
-                      const SizedBox(height: 15,),
+                      SizedBox(height: 15,),
                       BuildTextFormField(
                         keyboardType: TextInputType.text,
                         controller: txtPassword,
@@ -75,7 +67,7 @@ class _PageRegisterState extends State<PageRegister> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 15,),
+                      SizedBox(height: 15,),
                       BuildTextFormField(
                         keyboardType: TextInputType.text,
                         controller: txtConfirmPassword,
@@ -86,41 +78,30 @@ class _PageRegisterState extends State<PageRegister> {
                         suffixIcon: null,
                       ),
                     ],
-                  ),
+                  )
                 ),
-                const SizedBox(height: 30,),
-                SizedBox(
-                  width: 200,
-                  height: 48,
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      shape: const StadiumBorder(),
-                    ),
-                    icon: const Icon(Icons.key),
-                    label: const Text("Sign Up"),
-                    onPressed: () async {
-                        _save(context);
-                      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                          email: txtEmail.text,
-                          password: txtPassword.text
-                      );
-                      Navigator.of(context).pop();
-                    },
-                  ),
+                SizedBox(height: 30,),
+                ButtonWidget(
+                    context: context,
+                    width: 200,
+                    height: 48,
+                    icon: Icons.key,
+                    label: "Sign Up",
+                    press: () => createUserWithEmailAndPassword(),
                 ),
-              const SizedBox(height: 30,),
+                // buildButton(context,200,48,Icons.key,"Sign Up", createUserWithEmaiAndPassword),
+              SizedBox(height: 30,),
               Row(
-                children: const [
+                children: [
                   Expanded(child: Divider(color: Colors.black, height: 1.5,)),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
                     child: Text("Or"),
                   ),
                   Expanded(child: Divider(color: Colors.black, height: 1.5,)),
                 ],
               ),
-              const SizedBox(height: 30,),
+              SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -156,21 +137,8 @@ class _PageRegisterState extends State<PageRegister> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      String? phoneNumber = "+1 650-555-1234";
-                      signInWithPhoneNumber(
-                          context, phoneNumber: phoneNumber,
-                          timeOut: 60,
-                          smsTesCode: "123456",
-                          smsCodePrompt: () =>
-                              showPromtSMSCodeInput(context),
-                          onSigned: () =>
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                    builder: (context) => PageHome(),
-                                  ),
-                                    (route) => false,
-                              ),
-                      );
+                      //String? phoneNumber = "+1 650-555-1234";
+                      showDialogPhone(context);
                     },
                     child: Container(
                       padding: const EdgeInsets.all(14.0),
@@ -180,22 +148,23 @@ class _PageRegisterState extends State<PageRegister> {
                           ),
                           shape: BoxShape.circle
                       ),
-                      child:  const Icon(Icons.phone, size: 30,),
+                      child:  Icon(Icons.phone, size: 30,),
                     ),
                   ),
+
                 ],
               ),
-              const SizedBox(height: 30,),
+              SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Already have an account?"),
-                  const SizedBox(width: 15,),
+                  Text("Already have an account?"),
+                  SizedBox(width: 15,),
                   TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PageLogin(),));
                       },
-                      child: const Text("Login", style: TextStyle(color: Colors.orange),),
+                      child: Text("Login", style: TextStyle(color: Colors.orange),),
                   ),
                 ],
               )
@@ -205,12 +174,21 @@ class _PageRegisterState extends State<PageRegister> {
       )
     );
   }
+
   _save(BuildContext context) {
     if (formState.currentState!.validate()){
       formState.currentState!.save();
     }
   }
+void createUserWithEmailAndPassword  () async{
+  _save(context);
+  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: txtEmail.text,
+      password: txtPassword.text
+  );
+  Navigator.of(context).pop();
 
+}
  String? _validateEmail(String? value) {
     if (value == null || value.isEmpty){
       return "Please enter your email" ;
@@ -218,7 +196,6 @@ class _PageRegisterState extends State<PageRegister> {
     else if (!value.contains("@") || !value.contains(".")){
       return "Please enter a valid email";
     }
-    return null;
   }
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty){
@@ -227,7 +204,6 @@ class _PageRegisterState extends State<PageRegister> {
     else if (value.length <8){
       return "Password too short \nLength of password characters must be 8 \nor greater";
     }
-    return null;
   }
   String? _validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty){
@@ -236,9 +212,56 @@ class _PageRegisterState extends State<PageRegister> {
     else if (value != txtPassword.text) {
       return "Password mismatch ";
     }
-    return null;
   }
+  void showDialogPhone(BuildContext context) {
+    AlertDialog dialog = AlertDialog(
+      title: Text("Enter your phone", textAlign: TextAlign.center,),
+      content:
+      BuildTextFormField(
+        keyboardType: TextInputType.phone,
+        controller: txtPhone,
+        validator: (value) {
+        },
+        label: "Phone",
+        icon: Icons.phone,
+        obscureText: false,
+        suffixIcon: null,
+      ),
+      actions: [
+        ButtonWidget(
+            context: context,
+            width: 155,
+            height: 40,
+            icon: Icons.verified_user,
+            label: "Verification",
+            press: () {
+              if (txtPhone.text != null) {
+                Navigator.of(context).pop();
+                signInWithPhoneNumber(
+                    context, phoneNumber: txtPhone.text,
+                    timeOut: 60,
+                    smsTesCode: "123456",
+                    smsCodePrompt: () => showPromtSMSCodeInput(context),
+                    onSigned: () => Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => PageHome(),),(route) => false)
+                );
+              }
 
+            },
+        ),
+        ButtonWidget(
+          context: context,
+          width: 120,
+          height: 40,
+          icon: Icons.cancel,
+          label: "Cancel",
+          press: () => Navigator.of(context).pop(),
+        ),
+      ],
+    );
+    showDialog(context: context, builder: (context) => dialog,);
+
+  }
   void signInWithGoogle() async{
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
@@ -248,8 +271,10 @@ class _PageRegisterState extends State<PageRegister> {
     );
     FirebaseAuth.instance.signInWithCredential(credential)
         .then((value){
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => PageHome(),), (route) => false);
+      if (value!=null){
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => PageHome(),), (route) => false);
+      }
     } );
   }
   void signInWithFacebook() async {
@@ -260,9 +285,12 @@ class _PageRegisterState extends State<PageRegister> {
     // Once signed in, return the UserCredential
     await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential)
         .then((value){
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => PageHome(),), (route) => false);
+      if (value!=null){
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => PageHome(),), (route) => false);
+      }
     } ).catchError((onError){
+      print(onError);
     } );
   }
 
@@ -279,10 +307,10 @@ class _PageRegisterState extends State<PageRegister> {
 
       },
       codeSent: (verificationId, forceResendingToken) async {
+        print("Verification ID: $verificationId");
         String? smsCode = smsTesCode;
-        if(smsCodePrompt!=null) {
+        if(smsCodePrompt!=null)
           smsCode = await smsCodePrompt();
-        }
         if(smsCode!=null){
           var credential = PhoneAuthProvider.credential(
               verificationId: verificationId,
@@ -290,11 +318,11 @@ class _PageRegisterState extends State<PageRegister> {
           );
           try {
             var userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-            if(onSigned!=null) {
-              onSigned();
+            if(userCredential!=null){
+              if(onSigned!=null)
+                onSigned();
             }
           } on FirebaseAuthException catch(e){
-            print(e);
           }
         }
       },
@@ -305,24 +333,20 @@ class _PageRegisterState extends State<PageRegister> {
 
   Future<String?> showPromtSMSCodeInput(BuildContext context) async {
     TextEditingController sms =TextEditingController();
-    AlertDialog dialog = AlertDialog(
-      title: const Text("Enter SMS Code"),
-      content: TextField(
-        controller: sms,
-        decoration: const InputDecoration(
-          labelText: "SMS Code",
-        ),
+    AlertDialog dialog =AlertDialog(
+      title: Text("Enter SMS Code",textAlign: TextAlign.center),
+      content: BuildTextFormField(
         keyboardType: TextInputType.phone,
+        controller: sms,
+        validator: (value) {},
+        label: "SMS Code",
+        icon: Icons.sms_outlined,
+        obscureText: false,
+        suffixIcon: null,
       ),
       actions: [
-        ElevatedButton(
-          onPressed: () => Navigator.of(context, rootNavigator: true).pop(null),
-          child: const Text("Cancel"),
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.of(context, rootNavigator: true).pop(sms.text),
-          child: const Text("OK"),
-        ),
+        ButtonWidget(context: context, width: 120, height: 40, icon: Icons.check, label: "OK", press: (){Navigator.of(context, rootNavigator: true).pop(sms.text);}),
+        ButtonWidget(context: context, width: 120, height: 40, icon: Icons.cancel, label: "Cancel", press: (){Navigator.of(context, rootNavigator: true).pop(null);}),
       ],
     );
     String? res = await showDialog<String?>(
@@ -334,65 +358,4 @@ class _PageRegisterState extends State<PageRegister> {
   }
 }
 
-class BuildTextFormField extends StatelessWidget {
-  final TextInputType keyboardType;
-  final TextEditingController controller;
-  final Function(String?) validator;
-  final String label;
-  final IconData icon;
-  final bool? obscureText;
-  final IconButton? suffixIcon;
-  const BuildTextFormField({
-    super.key,
-    this.suffixIcon,
-    this.obscureText,
-    required this.keyboardType,
-    required this.controller,
-    required this.validator,
-    required this.label,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: obscureText!,
-      keyboardType: keyboardType,
-      controller: controller,
-      validator: (value) => validator(value),
-      decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        contentPadding: const EdgeInsets.symmetric(vertical: 15),
-        label: Text(label,style: const TextStyle(color: Colors.brown)),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Colors.transparent),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Colors.orange),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
-        suffixIcon: suffixIcon,
-        prefixIcon: Padding(
-          padding: const EdgeInsets.fromLTRB(1, 1, 4, 1),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.orange[100],
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(
-              icon,
-              color: Colors.deepOrange,
-              size: 28,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
 

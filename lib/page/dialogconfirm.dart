@@ -1,9 +1,8 @@
 
 import 'package:flutter/material.dart';
-import '../auth/page_register.dart';
+import 'component.dart';
 
-void showConfirmDialog(BuildContext context){
-
+void showConfirmDialog(BuildContext context, String title){
   GlobalKey<FormState> formConfirm = GlobalKey<FormState>();
   TextEditingController txtName = TextEditingController();
   TextEditingController txtAddress = TextEditingController();
@@ -27,7 +26,7 @@ void showConfirmDialog(BuildContext context){
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Confirm Delivered",
+              title,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ],

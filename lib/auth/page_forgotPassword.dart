@@ -1,9 +1,6 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:jewel_project/auth/page_register.dart';
-
+import 'package:jewel_project/page/component.dart';
 class PageForgotPassword extends StatelessWidget {
   PageForgotPassword({Key? key}) : super(key: key);
 
@@ -18,10 +15,10 @@ class PageForgotPassword extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Forgot Password", style: TextStyle(fontSize: 22, color: Colors.black, fontWeight:FontWeight.w500),),
-            const SizedBox(height: 50,),
-            const Text("Please enter your email and we will send \nyou a link to return your account"),
-            const SizedBox(height: 25,),
+            Text("Forgot Password", style: TextStyle(fontSize: 22, color: Colors.black, fontWeight:FontWeight.w500),),
+            SizedBox(height: 50,),
+            Text("Please enter your email and we will send \nyou a link to return your account"),
+            SizedBox(height: 25,),
             Form(
               key:formState,
               autovalidateMode: AutovalidateMode.disabled,
@@ -35,17 +32,17 @@ class PageForgotPassword extends StatelessWidget {
                 suffixIcon: null,
               ),
             ),
-            const SizedBox(height: 30,),
+            SizedBox(height: 30,),
             SizedBox(
               width: 200,
               height: 48,
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
-                  shape: const StadiumBorder(),
+                  shape: StadiumBorder(),
                 ),
-                icon: const Icon(Icons.send),
-                label: const Text("Continue"),
+                icon: Icon(Icons.send),
+                label: Text("Continue"),
                 onPressed: () async {
                   _save(context);
                     await FirebaseAuth.instance.sendPasswordResetEmail(
@@ -60,22 +57,8 @@ class PageForgotPassword extends StatelessWidget {
                   }
               ),
             ),
-            const SizedBox(height: 30,),
-            SizedBox(
-              width: 200,
-              height: 48,
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  shape: const StadiumBorder(),
-                ),
-                icon: const Icon(Icons.logout),
-                label: const Text("Back"),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
+            SizedBox(height: 30,),
+            ButtonWidget(context: context, width: 200, height: 48, icon: Icons.logout, label: "Back", press: () => Navigator.of(context).pop(),)
           ],
         ),
       ),
@@ -88,7 +71,6 @@ class PageForgotPassword extends StatelessWidget {
     else if (!value.contains("@") || !value.contains(".")){
       return "Please enter a valid email";
     }
-    return null;
   }
   _save(BuildContext context) {
     if (formState.currentState!.validate()){

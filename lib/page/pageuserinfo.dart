@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jewel_project/page/dialogconfirm.dart';
+
+import 'component.dart';
+
 
 class PageUserInfo extends StatelessWidget {
   const PageUserInfo({Key? key}) : super(key: key);
@@ -62,12 +66,15 @@ class PageUserInfo extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 12,),
-                SizedBox(
+                ButtonWidget(
+                  context: context,
                   width: 200,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("Edit Profile"),
-                  ),
+                  height: 48,
+                  icon: Icons.edit,
+                  label: "Edit profile",
+                  press:() {
+                    showConfirmDialog(context, "Edit Info");
+                  },
                 ),
               ],
             ),
@@ -77,3 +84,6 @@ class PageUserInfo extends StatelessWidget {
     );
   }
 }
+
+
+

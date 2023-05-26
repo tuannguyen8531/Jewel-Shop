@@ -248,7 +248,7 @@ class PageCart extends StatelessWidget {
                           height:  48,
                           child: ElevatedButton(
                               onPressed:(){
-                                showConfirmDialog(context);
+                                showConfirmDialog(context, "Confirm Delivered");
                               } ,
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.orange ,

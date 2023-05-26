@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jewel_project/page/pagecart.dart';
 import 'package:jewel_project/page/pagehome.dart';
@@ -7,6 +6,7 @@ import 'package:jewel_project/page/pagelistall.dart';
 import 'package:jewel_project/page/pageuserinfo.dart';
 
 import '../auth/page_login.dart';
+import 'component.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -47,7 +47,7 @@ class SideMenu extends StatelessWidget {
                 onTap: () async {
                   await FirebaseAuth.instance.signOut();
                   Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const PageLogin()), (route) => false);
+                      MaterialPageRoute(builder: (context) => PageLogin()), (route) => false);
                 },
                 leading: const SizedBox(
                   height: 34,
@@ -67,71 +67,5 @@ class SideMenu extends StatelessWidget {
   }
 }
 
-class MenuTitle extends StatelessWidget {
-  MenuTitle({super.key,
-    required this.icon,
-    required this.title,
-    this.destination,
-  });
-  String title;
-  IconData icon;
-  Widget? destination;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          onTap: () {
-            if(destination!=null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => destination!,),
-              );
-            }
-            else {
-              return;
-            }
-          },
-          leading: SizedBox(
-            height: 34,
-            width: 34,
-            child: Icon(icon, color: Colors.orange,),
-          ),
-          title: Text(
-            title,
-            style: const TextStyle(color: Colors.orange),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
-class InfoCard extends StatelessWidget {
-  InfoCard({super.key,
-    required this.name,
-    required this.email,
-  });
-  String name, email;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0,25,0,0),
-      child: ListTile(
-        leading: const CircleAvatar(
-          maxRadius: 25,
-          backgroundImage: AssetImage("assets/images/background.png"),
-        ),
-        title: Text(
-          name,
-          style: const TextStyle(color: Colors.black87),
-        ),
-        subtitle: Text(
-          email,
-          style: const TextStyle(color: Colors.black38),
-        ),
-      ),
-    );
-  }
-}
 
