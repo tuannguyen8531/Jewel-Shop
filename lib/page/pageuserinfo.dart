@@ -89,6 +89,19 @@ class PageUserInfo extends StatelessWidget {
                     ),
                     child: const Icon(Icons.email_outlined),
                   ),
+                  title: Text(
+                    "Email",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  trailing: Container(
+                    width: 35,
+                    height: 35,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.black54.withOpacity(0.1)
+                    ),
+                    child: const Icon(Icons.chevron_right_sharp),
+                  ),
                 ),
               ],
             ),
