@@ -9,16 +9,19 @@ import '../auth/page_login.dart';
 import 'component.dart';
 
 class SideMenu extends StatelessWidget {
-  const SideMenu({Key? key}) : super(key: key);
-
+  SideMenu({super.key,
+    required this.email,
+  });
+  String email;
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      width: 333,
       backgroundColor: Colors.white,
       elevation: 0,
       child: Column(
         children: [
-          InfoCard(name: "Zen", email: "zen.edward.7@gmail.com"),
+          InfoCard(name: "Zen", email: email),
           const SizedBox(height: 15,),
           const Padding(
             padding: EdgeInsets.only(left: 24, right: 24),
@@ -50,7 +53,6 @@ class SideMenu extends StatelessWidget {
               ),
             ],
           ),
-          MenuTitle(title: "Home", icon: Icons.home_filled, destination: PageHome(),),
           MenuTitle(title: "Products", icon: Icons.diamond, destination: const PageList(),),
           MenuTitle(title: "Cart", icon: Icons.shopping_cart, destination: const PageCart(),),
           MenuTitle(title: "Search", icon: Icons.search,),

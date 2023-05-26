@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jewel_project/auth/page_forgotPassword.dart';
 import 'package:jewel_project/auth/page_register.dart';
+import 'package:jewel_project/data/user_data.dart';
 import 'package:jewel_project/page/component.dart';
 import 'package:jewel_project/page/pagehome.dart';
 import 'package:jewel_project/data/widget_connect_firebase.dart';
@@ -191,18 +192,55 @@ class _PageLoginState extends State<PageLogin> {
       );
       // Kiểm tra xem userCredential có khác null hay không
       if (userCredential != null) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => PageHome()),
-              (route) => false,
-        );
-      } else {
+        // Kéo danh sách người dùng về và kiểm tra xem đã có thông tin hay chưa
+        convertStreamToList(UserSnapshot.getAllUser()).then((resultList) {
+          bool hasInfo = false;
+          for(UserSnapshot user in resultList) {
+            print(user.user.email);
+            if(user.user.email == txtEmail.text) {
+              hasInfo = true;
+              break;
+            }
+          }
+          // Nếu có rồi thì chạy thẳng vào Home
+          if(hasInfo) {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => PageHome()),
+                  (route) => false,
+            );
+          }
+          // Nếu không thì tạo người dùng mới, thêm vào firebase rồi mới vào Home
+          else {
+            UserItem newUser = UserItem(
+              id: "",
+              name: "",
+              address: "",
+              email: txtEmail.text,
+              phone: "",
+              isUpdated: false,
+              age: 0,
+            );
+            UserSnapshot.add(newUser);
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => PageHome()),
+                  (route) => false,
+            );
+          }
+        }).catchError((error) {
+          print(error);
+        });
+      }
+
+      // Xử lý lỗi đăng nhập thất bại
+      else {
         // UserCredential bằng null, tức là đăng nhập thất bại
         print('Đăng nhập không thành công');
       }
     } on FirebaseAuthException catch (e) {
+      // Bắt lỗi không tìm thấy email
       if (e.code == 'user-not-found') {
         setState(() {
-          validateEmail="Email không đúng";
+          validateEmail="Incorrect Email";
         });
       } else if (e.code == 'wrong-password') {
         // Mật khẩu không đúng
@@ -212,6 +250,7 @@ class _PageLoginState extends State<PageLogin> {
         });
       }
       else if (e.code != 'wrong-password'){
+        // Một lỗi khác khác lỗi sai mật khẩu
         setState(() {
           validatePassword = "";
         });
@@ -388,6 +427,13 @@ class _PageLoginState extends State<PageLogin> {
   }
 
 }
+
+
+// Hàm chuyển đổi Strem<List<Item>> thành List<Item>
+Future<List<UserSnapshot>> convertStreamToList(Stream<List<UserSnapshot>> stream) async  {
+  return await stream.first;
+}
+
 
 
 

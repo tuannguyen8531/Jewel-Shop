@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/data/jewel_data.dart';
@@ -18,7 +19,7 @@ class PageHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideMenu(),
+      drawer: SideMenu(email: FirebaseAuth.instance.currentUser!.email!),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,

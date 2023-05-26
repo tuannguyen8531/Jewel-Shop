@@ -63,42 +63,56 @@ class PageDetail extends StatelessWidget {
           StreamBuilder<List<ProductItemSnapshot>>(
             stream: ProductItemSnapshot.getAllProductItem(),
             builder: (context, snapshot) {
-              var list = snapshot.data!;
-              return Stack(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const PageCart(),),);
-                    },
-                    icon: const Icon(
-                      Icons.shopping_cart_rounded,
-                      size: 30,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  // vi trí của icon số lượng trong giỏ hàng
-                  Positioned(
-                      top: 4,
-                      left: 25,
-                      child: Container(
-                        height: 22,
-                        width: 22,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.orange,
+              if(snapshot.hasError) {
+                return const Center(
+                  child: Text("Error!"),
+                );
+              }
+              else {
+                if(!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                else {
+                  var list = snapshot.data!;
+                  return Stack(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const PageCart(),),);
+                        },
+                        icon: const Icon(
+                          Icons.shopping_cart_rounded,
+                          size: 30,
+                          color: Colors.grey,
                         ),
-                        child: Center(
-                          child: Text(
-                            list.length.toString(),
-                            style: const TextStyle( fontSize: 12,fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      )
-                  ),
-                ],
-              );
+                      ),
+                      // vi trí của icon số lượng trong giỏ hàng
+                      Positioned(
+                          top: 4,
+                          left: 25,
+                          child: Container(
+                            height: 22,
+                            width: 22,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.orange,
+                            ),
+                            child: Center(
+                              child: Text(
+                                list.length.toString(),
+                                style: const TextStyle( fontSize: 12,fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          )
+                      ),
+                    ],
+                  );
+                }
+              }
             },
           ),
         ],

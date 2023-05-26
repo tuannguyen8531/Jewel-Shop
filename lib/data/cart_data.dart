@@ -66,6 +66,7 @@ class ProductItemSnapshot {
         .map((listDocSnap) => listDocSnap.map((docSnap) =>
         ProductItemSnapshot.fromSnapshot(docSnap)).toList());
   }
+
   static Future<DocumentReference> add(ProductItem productItem) async {
     return FirebaseFirestore.instance.collection("cart").add(productItem.toJson());
   }
