@@ -170,11 +170,11 @@ class _PageLoginState extends State<PageLogin> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Don't have an account?"),
+                      const Text("Don't have an account?"),
                       SizedBox(width: 15,),
                       TextButton(
                         onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context) => PageRegister(),)),
-                        child: Text("Sign Up", style: TextStyle(color: Colors.orange),),
+                        child: const Text("Sign Up", style: TextStyle(color: Colors.orange),),
                       ),
                     ],
                   ),
@@ -187,6 +187,7 @@ class _PageLoginState extends State<PageLogin> {
   }
   void signInWithEmail  () async {
     try {
+      showSnackBar(context, "Logging in...", 1);
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: txtEmail.text,
         password: txtPassword.text,
@@ -289,6 +290,7 @@ class _PageLoginState extends State<PageLogin> {
               }
               // Nếu có rồi thì chạy thẳng vào Home
               if(hasInfo) {
+                showSnackBar(context, "Logging in...", 2);
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
                       (route) => false,
@@ -306,6 +308,7 @@ class _PageLoginState extends State<PageLogin> {
                   age: 0,
                 );
                 UserSnapshot.add(newUser);
+                showSnackBar(context, "Logging in...", 2);
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
                       (route) => false,
@@ -319,7 +322,7 @@ class _PageLoginState extends State<PageLogin> {
   }
   void showDialogPhone(BuildContext context) {
     AlertDialog dialog = AlertDialog(
-      title: Text("Enter your phone", textAlign: TextAlign.center,),
+      title: const Text("Enter your phone", textAlign: TextAlign.center,),
       content:
           BuildTextFormField(
             keyboardType: TextInputType.phone,
@@ -331,7 +334,7 @@ class _PageLoginState extends State<PageLogin> {
             obscureText: false,
             suffixIcon: null,
           ),
-    actions: [
+      actions: [
         ButtonWidget(
           context: context,
           width: 155,
@@ -346,7 +349,7 @@ class _PageLoginState extends State<PageLogin> {
                   timeOut: 60,
                   smsTesCode: "123456",
                   smsCodePrompt: () => showPromtSMSCodeInput(context),
-                  onSigned: () {
+                  onSigned: (){
                     convertStreamToList(UserSnapshot.getAllUser()).then((resultList) {
                       bool hasInfo = false;
                       String temp = "Customer";
@@ -358,6 +361,7 @@ class _PageLoginState extends State<PageLogin> {
                       }
                       // Nếu có rồi thì chạy thẳng vào Home
                       if(hasInfo) {
+                        showSnackBar(context, "Logging in...", 2);
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(builder: (context) => PageMain(name: "Customer", phone: FirebaseAuth.instance.currentUser!.phoneNumber,),),(route) => false);
                       }
@@ -373,6 +377,7 @@ class _PageLoginState extends State<PageLogin> {
                           age: 0,
                         );
                         UserSnapshot.add(newUser);
+                        showSnackBar(context, "Logging in...", 2);
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(builder: (context) => PageMain(name: "Customer", phone: FirebaseAuth.instance.currentUser!.phoneNumber,),),(route) => false);
                       }
@@ -398,6 +403,7 @@ class _PageLoginState extends State<PageLogin> {
     showDialog(context: context, builder: (context) => dialog,);
 
   }
+
   void signInWithFacebook() async {
         // Trigger the sign-in flow
         final LoginResult loginResult = await FacebookAuth.instance.login();

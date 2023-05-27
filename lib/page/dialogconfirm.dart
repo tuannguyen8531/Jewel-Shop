@@ -18,7 +18,7 @@ Future<bool> showConfirmDialog(BuildContext context, String title) async{
           children: [
             Text(
               title,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           ],
         ),

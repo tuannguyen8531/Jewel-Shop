@@ -8,10 +8,10 @@ import 'package:jewel_project/page/dialogconfirm.dart';
 import 'package:jewel_project/page/pageupdateinfo.dart';
 
 class PageCart extends StatelessWidget {
-  PageCart({super.key,
+  const PageCart({super.key,
     required this.icon,
   });
-  Widget icon;
+  final Widget icon;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

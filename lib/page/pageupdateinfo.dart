@@ -9,13 +9,13 @@ class PageEditInfo extends StatelessWidget {
   PageEditInfo({super.key,
     required this.userSnapshot,
   });
-  UserSnapshot userSnapshot;
+  final UserSnapshot userSnapshot;
 
-  GlobalKey<FormState> formConfirm = GlobalKey<FormState>();
-  TextEditingController txtName = TextEditingController();
-  TextEditingController txtAge = TextEditingController();
-  TextEditingController txtAddress = TextEditingController();
-  TextEditingController txtPhone = TextEditingController();
+  final GlobalKey<FormState> formConfirm = GlobalKey<FormState>();
+  final TextEditingController txtName = TextEditingController();
+  final TextEditingController txtAge = TextEditingController();
+  final TextEditingController txtAddress = TextEditingController();
+  final TextEditingController txtPhone = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

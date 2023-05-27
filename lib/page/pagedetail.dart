@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jewel_project/data/cart_data.dart';
@@ -12,9 +9,9 @@ import 'package:jewel_project/page/pagecart.dart';
 
 class PageDetail extends StatelessWidget {
 
-  JewelSnapshot jewelSnapshot;
+  final JewelSnapshot jewelSnapshot;
 
-  PageDetail({
+  const PageDetail({
     super.key,
     required this.jewelSnapshot,
   });
@@ -83,7 +80,7 @@ class PageDetail extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => PageCart(icon: const BackIcon()),),);
+                            MaterialPageRoute(builder: (context) => const PageCart(icon: BackIcon()),),);
                         },
                         icon: const Icon(
                           Icons.shopping_cart_rounded,

@@ -11,7 +11,7 @@ import 'package:jewel_project/data/type_data.dart';
 class PageHome extends StatelessWidget {
   PageHome({Key? key}) : super(key: key);
   final TextEditingController txtSearch = TextEditingController();
-  GlobalKey<FormState> formState = GlobalKey<FormState>();
+  final GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

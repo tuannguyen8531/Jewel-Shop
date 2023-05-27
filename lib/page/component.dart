@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 
 
 class ProductCard extends StatelessWidget {
-  ProductCard({
+  const ProductCard({
     Key? key,
     required this.name,
     required this.price,
     required this.image,
     required this.press,
   }) : super(key: key);
-  String name, price, image;
-  VoidCallback press;
+  final String name, price, image;
+  final VoidCallback press;
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +39,14 @@ class ProductCard extends StatelessWidget {
 }
 
 class CategoryCard extends StatelessWidget {
-  CategoryCard({
+  const CategoryCard({
     Key? key,
     required this.icon,
     required this.type,
     required this.press,
   }) : super(key: key);
-  String icon;
-  String type;
-  VoidCallback press;
+  final String icon, type;
+  final VoidCallback press;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -76,12 +75,12 @@ class CategoryCard extends StatelessWidget {
 }
 
 class ButtonWidget extends StatelessWidget {
-  BuildContext context;
-  double width, height;
-  IconData icon;
-  String label;
-  VoidCallback press;
-  ButtonWidget({super.key,
+  final BuildContext context;
+  final double width, height;
+  final IconData icon;
+  final String label;
+  final VoidCallback press;
+  const ButtonWidget({super.key,
     required this.context,
     required this.width,
     required this.height,
@@ -171,14 +170,14 @@ class BuildTextFormField extends StatelessWidget {
 }
 
 class MenuTitle extends StatelessWidget {
-  MenuTitle({super.key,
+  const MenuTitle({super.key,
     required this.icon,
     required this.title,
     this.destination,
   });
-  String title;
-  IconData icon;
-  Widget? destination;
+  final String title;
+  final IconData icon;
+  final Widget? destination;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -211,11 +210,11 @@ class MenuTitle extends StatelessWidget {
 }
 
 class InfoCard extends StatelessWidget {
-  InfoCard({super.key,
+  const InfoCard({super.key,
     required this.name,
     required this.email,
   });
-  String name, email;
+  final String name, email;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -239,13 +238,13 @@ class InfoCard extends StatelessWidget {
 }
 
 class ProfileMenuTitle extends StatelessWidget {
-  ProfileMenuTitle({
+  const ProfileMenuTitle({
     super.key,
     required this.text,
     required this.icon,
   });
-  String text;
-  IconData icon;
+  final String text;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {

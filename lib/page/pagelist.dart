@@ -5,10 +5,10 @@ import 'package:jewel_project/data/jewel_data.dart';
 import 'package:jewel_project/page/pagedetail.dart';
 
 class PageTypes extends StatelessWidget {
-  PageTypes({super.key,
+  const PageTypes({super.key,
     required this.type,
   });
-  String type;
+  final String type;
   @override
   Widget build(BuildContext context) {
     String name;

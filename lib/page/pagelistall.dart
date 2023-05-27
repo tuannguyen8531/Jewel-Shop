@@ -3,11 +3,11 @@ import 'package:jewel_project/page/pagedetail.dart';
 import 'package:jewel_project/data/jewel_data.dart';
 
 class PageList extends StatelessWidget {
-  PageList({
+  const PageList({
     super.key,
     required this.icon,
   });
-  Widget icon;
+  final Widget icon;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
