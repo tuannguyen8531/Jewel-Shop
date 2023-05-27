@@ -80,7 +80,7 @@ class _PageMainState extends State<PageMain> {
                   onTap: () async {
                     await FirebaseAuth.instance.signOut();
                     Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => PageLogin()), (route) => false);
+                        MaterialPageRoute(builder: (context) => const PageLogin()), (route) => false);
                   },
                   leading: const SizedBox(
                     height: 34,

@@ -152,7 +152,7 @@ class PageHome extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => PageList(icon: const BackIcon(),),
+                                  builder: (context) => const PageList(icon: BackIcon(),),
                                 ),
                               );
                             },

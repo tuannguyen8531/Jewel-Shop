@@ -32,7 +32,7 @@ class PageList extends StatelessWidget {
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
             onPressed: () {},
-            icon: const Icon(Icons.add, color: Colors.transparent,)
+            icon: const Icon(Icons.add, color: Colors.transparent,),
           ),
         ],
       ),

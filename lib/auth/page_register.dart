@@ -10,7 +10,7 @@ import '../data/user_data.dart';
 import '../page/pagemain.dart';
 class PageRegister extends StatefulWidget {
 
-   PageRegister({Key? key}) : super(key: key);
+   const PageRegister({Key? key}) : super(key: key);
 
   @override
   State<PageRegister> createState() => _PageRegisterState();
@@ -33,14 +33,14 @@ class _PageRegisterState extends State<PageRegister> {
           child: Column(
             children: [
                 Image.asset("assets/images/jewel_shop.png", height: 220 ,),
-                Text("Sign Up", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: 20, height: 1.5),),
-                SizedBox(height: 30,),
+                const Text("Sign Up", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: 20, height: 1.5),),
+                const SizedBox(height: 30,),
                 Form(
                   key:formState,
                   autovalidateMode: AutovalidateMode.disabled,
                   child: Column(
                     children: [
-                      BuildTextFormField(
+                      TextFormFieldWidget(
                         keyboardType: TextInputType.emailAddress,
                         controller: txtEmail,
                         validator: (value) => _validateEmail(value),
@@ -49,8 +49,8 @@ class _PageRegisterState extends State<PageRegister> {
                         obscureText: false,
                         suffixIcon: null,
                       ),
-                      SizedBox(height: 15,),
-                      BuildTextFormField(
+                      const SizedBox(height: 15,),
+                      TextFormFieldWidget(
                         keyboardType: TextInputType.text,
                         controller: txtPassword,
                         validator: (value) => _validatePassword(value),
@@ -70,8 +70,8 @@ class _PageRegisterState extends State<PageRegister> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15,),
-                      BuildTextFormField(
+                      const SizedBox(height: 15,),
+                      TextFormFieldWidget(
                         keyboardType: TextInputType.text,
                         controller: txtConfirmPassword,
                         validator: (value) => _validateConfirmPassword(value),
@@ -83,7 +83,7 @@ class _PageRegisterState extends State<PageRegister> {
                     ],
                   )
                 ),
-                SizedBox(height: 30,),
+                const SizedBox(height: 30,),
                 ButtonWidget(
                     context: context,
                     width: 200,
@@ -93,18 +93,18 @@ class _PageRegisterState extends State<PageRegister> {
                     press: () => createUserWithEmailAndPassword(),
                 ),
                 // buildButton(context,200,48,Icons.key,"Sign Up", createUserWithEmaiAndPassword),
-              SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               Row(
-                children: [
+                children: const [
                   Expanded(child: Divider(color: Colors.black, height: 1.5,)),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                     child: Text("Or"),
                   ),
                   Expanded(child: Divider(color: Colors.black, height: 1.5,)),
                 ],
               ),
-              SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -151,23 +151,23 @@ class _PageRegisterState extends State<PageRegister> {
                           ),
                           shape: BoxShape.circle
                       ),
-                      child:  Icon(Icons.phone, size: 30,),
+                      child:  const Icon(Icons.phone, size: 30,),
                     ),
                   ),
 
                 ],
               ),
-              SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already have an account?"),
-                  SizedBox(width: 15,),
+                  const Text("Already have an account?"),
+                  const SizedBox(width: 15,),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PageLogin(),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const PageLogin(),));
                       },
-                      child: Text("Login", style: TextStyle(color: Colors.orange),),
+                      child: const Text("Login", style: TextStyle(color: Colors.orange),),
                   ),
                 ],
               )
@@ -186,13 +186,14 @@ class _PageRegisterState extends State<PageRegister> {
 void createUserWithEmailAndPassword  () async{
   _save(context);
   try {
-    var user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: txtEmail.text,
         password: txtPassword.text
     );
     showSnackBar(context, "Registed successfully!", 5);
     Navigator.of(context).pop();
   } on FirebaseAuthException catch(e) {
+    print(e.code);
     showSnackBar(context, "Email already existed!", 7);
   }
 }
@@ -203,6 +204,7 @@ void createUserWithEmailAndPassword  () async{
     else if (!value.contains("@") || !value.contains(".")){
       return "Please enter a valid email";
     }
+    return null;
   }
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty){
@@ -211,6 +213,7 @@ void createUserWithEmailAndPassword  () async{
     else if (value.length <8){
       return "Password too short \nLength of password characters must be 8 \nor greater";
     }
+    return null;
   }
   String? _validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty){
@@ -219,12 +222,13 @@ void createUserWithEmailAndPassword  () async{
     else if (value != txtPassword.text) {
       return "Password mismatch ";
     }
+    return null;
   }
   void showDialogPhone(BuildContext context) {
     AlertDialog dialog = AlertDialog(
       title: const Text("Enter your phone", textAlign: TextAlign.center,),
       content:
-      BuildTextFormField(
+      TextFormFieldWidget(
         keyboardType: TextInputType.phone,
         controller: txtPhone,
         validator: (value) {
@@ -242,51 +246,49 @@ void createUserWithEmailAndPassword  () async{
           icon: Icons.verified_user,
           label: "Verification",
           press: () {
-            if (txtPhone.text != null) {
-              Navigator.of(context).pop();
-              signInWithPhoneNumber(
-                context, phoneNumber: txtPhone.text,
-                timeOut: 60,
-                smsTesCode: "123456",
-                smsCodePrompt: () => showPromtSMSCodeInput(context),
-                onSigned: (){
-                  convertStreamToList(UserSnapshot.getAllUser()).then((resultList) {
-                    bool hasInfo = false;
-                    String temp = "Customer";
-                    for(UserSnapshot user in resultList) {
-                      if(user.user.phone == txtPhone.text) {
-                        hasInfo = true;
-                        break;
-                      }
+            Navigator.of(context).pop();
+            signInWithPhoneNumber(
+              context, phoneNumber: txtPhone.text,
+              timeOut: 60,
+              smsTesCode: "123456",
+              smsCodePrompt: () => showPromtSMSCodeInput(context),
+              onSigned: (){
+                convertStreamToList(UserSnapshot.getAllUser()).then((resultList) {
+                  bool hasInfo = false;
+                  String temp = "Customer";
+                  for(UserSnapshot user in resultList) {
+                    if(user.user.phone == txtPhone.text) {
+                      hasInfo = true;
+                      break;
                     }
-                    // Nếu có rồi thì chạy thẳng vào Home
-                    if(hasInfo) {
-                      showSnackBar(context, "Logging in...", 2);
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => PageMain(name: "Customer", phone: FirebaseAuth.instance.currentUser!.phoneNumber,),),(route) => false);
-                    }
-                    // Nếu không thì tạo người dùng mới, thêm vào firebase rồi mới vào Home
-                    else {
-                      UserItem newUser = UserItem(
-                        id: "",
-                        name: temp,
-                        address: "",
-                        email: "customer@gmail.com",
-                        phone: txtPhone.text,
-                        isUpdated: false,
-                        age: 0,
-                      );
-                      UserSnapshot.add(newUser);
-                      showSnackBar(context, "Logging in...", 2);
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => PageMain(name: "Customer", phone: FirebaseAuth.instance.currentUser!.phoneNumber,),),(route) => false);
-                    }
-                  }).catchError((error) {
-                    print(error);
-                  });
-                },
-              );
-            }
+                  }
+                  // Nếu có rồi thì chạy thẳng vào Home
+                  if(hasInfo) {
+                    showSnackBar(context, "Logging in...", 2);
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => PageMain(name: "Customer", phone: FirebaseAuth.instance.currentUser!.phoneNumber,),),(route) => false);
+                  }
+                  // Nếu không thì tạo người dùng mới, thêm vào firebase rồi mới vào Home
+                  else {
+                    UserItem newUser = UserItem(
+                      id: "",
+                      name: temp,
+                      address: "",
+                      email: "customer@gmail.com",
+                      phone: txtPhone.text,
+                      isUpdated: false,
+                      age: 0,
+                    );
+                    UserSnapshot.add(newUser);
+                    showSnackBar(context, "Logging in...", 2);
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => PageMain(name: "Customer", phone: FirebaseAuth.instance.currentUser!.phoneNumber,),),(route) => false);
+                  }
+                }).catchError((error) {
+                  print(error);
+                });
+              },
+            );
 
           },
         ),
@@ -309,51 +311,46 @@ void createUserWithEmailAndPassword  () async{
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    FirebaseAuth.instance.signInWithCredential(credential)
-        .then((value){
-      if (value!=null){
-        // Navigator.of(context).pushAndRemoveUntil(
-        //     MaterialPageRoute(builder: (context) => PageMain(name: googleUser.displayName!),), (route) => false);
-        convertStreamToList(UserSnapshot.getAllUser()).then((resultList) {
-          bool hasInfo = false;
-          String temp = googleUser.displayName!;
-          for(UserSnapshot user in resultList) {
-            print(user.user.email);
-            if(user.user.email == googleUser.email) {
-              hasInfo = true;
-              break;
-            }
+    FirebaseAuth.instance.signInWithCredential(credential).then((value){
+      convertStreamToList(UserSnapshot.getAllUser()).then((resultList) {
+        bool hasInfo = false;
+        String temp = googleUser.displayName!;
+        for(UserSnapshot user in resultList) {
+          print(user.user.email);
+          if(user.user.email == googleUser.email) {
+            hasInfo = true;
+            break;
           }
-          // Nếu có rồi thì chạy thẳng vào Home
-          if(hasInfo) {
-            showSnackBar(context, "Logging in...", 2);
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
-                  (route) => false,
-            );
-          }
-          // Nếu không thì tạo người dùng mới, thêm vào firebase rồi mới vào Home
-          else {
-            UserItem newUser = UserItem(
-              id: "",
-              name: temp,
-              address: "",
-              email: googleUser.email,
-              phone: "",
-              isUpdated: false,
-              age: 0,
-            );
-            UserSnapshot.add(newUser);
-            showSnackBar(context, "Logging in...", 2);
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
-                  (route) => false,
-            );
-          }
-        }).catchError((error) {
-          print(error);
-        });
-      }
+        }
+        // Nếu có rồi thì chạy thẳng vào Home
+        if(hasInfo) {
+          showSnackBar(context, "Logging in...", 2);
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
+                (route) => false,
+          );
+        }
+        // Nếu không thì tạo người dùng mới, thêm vào firebase rồi mới vào Home
+        else {
+          UserItem newUser = UserItem(
+            id: "",
+            name: temp,
+            address: "",
+            email: googleUser.email,
+            phone: "",
+            isUpdated: false,
+            age: 0,
+          );
+          UserSnapshot.add(newUser);
+          showSnackBar(context, "Logging in...", 2);
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
+                (route) => false,
+          );
+        }
+      }).catchError((error) {
+        print(error);
+      });
     } );
   }
   void signInWithFacebook() async {
@@ -386,18 +383,21 @@ void createUserWithEmailAndPassword  () async{
       codeSent: (verificationId, forceResendingToken) async {
         print("Verification ID: $verificationId");
         String? smsCode = smsTesCode;
-        if(smsCodePrompt!=null)
+        if(smsCodePrompt!=null) {
           smsCode = await smsCodePrompt();
+        }
         if(smsCode!=null){
           var credential = PhoneAuthProvider.credential(
               verificationId: verificationId,
               smsCode: smsCode
           );
           try {
-            var userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-            if(onSigned!=null)
+            await FirebaseAuth.instance.signInWithCredential(credential);
+            if(onSigned!=null) {
               onSigned();
+            }
           } on FirebaseAuthException catch(e){
+            print(e.code);
           }
         }
       },
@@ -409,8 +409,8 @@ void createUserWithEmailAndPassword  () async{
   Future<String?> showPromtSMSCodeInput(BuildContext context) async {
     TextEditingController sms =TextEditingController();
     AlertDialog dialog =AlertDialog(
-      title: Text("Enter SMS Code",textAlign: TextAlign.center),
-      content: BuildTextFormField(
+      title: const Text("Enter SMS Code",textAlign: TextAlign.center),
+      content: TextFormFieldWidget(
         keyboardType: TextInputType.phone,
         controller: sms,
         validator: (value) {},

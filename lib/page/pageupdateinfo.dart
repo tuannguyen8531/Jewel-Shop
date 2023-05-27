@@ -5,17 +5,35 @@ import 'package:jewel_project/data/user_data.dart';
 
 import 'component.dart';
 
-class PageEditInfo extends StatelessWidget {
-  PageEditInfo({super.key,
+class PageEditInfo extends StatefulWidget {
+  const PageEditInfo({super.key,
     required this.userSnapshot,
   });
   final UserSnapshot userSnapshot;
 
+  @override
+  State<PageEditInfo> createState() => _PageEditInfoState();
+}
+
+class _PageEditInfoState extends State<PageEditInfo> {
+  UserSnapshot? us;
   final GlobalKey<FormState> formConfirm = GlobalKey<FormState>();
   final TextEditingController txtName = TextEditingController();
   final TextEditingController txtAge = TextEditingController();
   final TextEditingController txtAddress = TextEditingController();
   final TextEditingController txtPhone = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    us = widget.userSnapshot;
+    if(us!=null) {
+      txtName.text = us!.user.name;
+      txtAge.text = us!.user.age.toString();
+      txtAddress.text = us!.user.address;
+      txtPhone.text = us!.user.phone;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +85,11 @@ class PageEditInfo extends StatelessWidget {
               ),
               const SizedBox(height: 12,),
               Text(
-                userSnapshot.user.name,
+                widget.userSnapshot.user.name,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               Text(
-                userSnapshot.user.email,
+                widget.userSnapshot.user.email,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 10),
@@ -86,7 +104,7 @@ class PageEditInfo extends StatelessWidget {
                       child: Column(
                         children: [
                           const SizedBox(height: 30),
-                          BuildTextFormField(
+                          TextFormFieldWidget(
                             keyboardType: TextInputType.text,
                             controller: txtName,
                             validator: (value) => validatName(value),
@@ -96,7 +114,7 @@ class PageEditInfo extends StatelessWidget {
                             suffixIcon: null,
                           ),
                           const SizedBox(height: 30),
-                          BuildTextFormField(
+                          TextFormFieldWidget(
                             keyboardType: TextInputType.text,
                             controller: txtAddress,
                             validator: (value) => validateAddress(value),
@@ -106,7 +124,7 @@ class PageEditInfo extends StatelessWidget {
                             suffixIcon: null,
                           ),
                           const SizedBox(height: 30),
-                          BuildTextFormField(
+                          TextFormFieldWidget(
                             keyboardType: TextInputType.number,
                             controller: txtAge,
                             validator: (value) => validateAge(value),
@@ -116,7 +134,7 @@ class PageEditInfo extends StatelessWidget {
                             suffixIcon: null,
                           ),
                           const SizedBox(height: 30),
-                          BuildTextFormField(
+                          TextFormFieldWidget(
                             keyboardType: TextInputType.number,
                             controller: txtPhone,
                             validator: (value) => validatePhone(value),
@@ -143,12 +161,12 @@ class PageEditInfo extends StatelessWidget {
                                 id: "",
                                 name: txtName.text,
                                 address: txtAddress.text,
-                                email: userSnapshot.user.email,
+                                email: widget.userSnapshot.user.email,
                                 phone: txtPhone.text,
                                 isUpdated: true,
                                 age: int.parse(txtAge.text),
                             );
-                            await userSnapshot.update(newUser);
+                            await widget.userSnapshot.update(newUser);
                             Navigator.of(context).pop();
                           },
                         )
@@ -169,6 +187,7 @@ class PageEditInfo extends StatelessWidget {
       formConfirm.currentState!.save();
     }
   }
+
   String? validatName(String? s){
     return s == null || s.isEmpty ? "Enter your name" : null;
   }
@@ -180,6 +199,7 @@ class PageEditInfo extends StatelessWidget {
   String? validatePhone(String? s){
     return s == null || s.isEmpty ? "Enter your phone" : null;
   }
+
   String? validateAge(String? s) {
     if (s == null || s.isEmpty) {
       return "Incorrect age";

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/data/user_data.dart';
 import 'package:jewel_project/page/pageupdateinfo.dart';
 
@@ -34,7 +33,7 @@ class PageUserInfo extends StatelessWidget {
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
               onPressed: () {},
-              icon: SvgPicture.asset("assets/icons/notification.svg", color: Colors.transparent,),
+              icon: const Icon(Icons.add, color: Colors.transparent,),
             ),
           ],
         ),
