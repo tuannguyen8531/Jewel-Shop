@@ -1,14 +1,11 @@
 import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/data/jewel_data.dart';
 import 'package:jewel_project/page/component.dart';
 import 'package:jewel_project/page/pagedetail.dart';
 import 'package:jewel_project/page/pagelist.dart';
 import 'package:jewel_project/page/pagelistall.dart';
-import 'package:jewel_project/page/sidemenu.dart';
 import 'package:jewel_project/data/type_data.dart';
 
 class PageHome extends StatelessWidget {
@@ -19,40 +16,6 @@ class PageHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SideMenu(email: FirebaseAuth.instance.currentUser!.email!),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              icon: SvgPicture.asset("assets/icons/menu.svg"),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
-          },
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              "Jewel Store",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset("assets/icons/notification.svg"),
-          ),
-        ],
-      ),
       body: FutureBuilder<List<JewelSnapshot>>(
         future: JewelSnapshot.getListJewels(),
         builder: (context, snapshot) {
@@ -189,7 +152,7 @@ class PageHome extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const PageList(),
+                                  builder: (context) => PageList(icon: const BackIcon(),),
                                 ),
                               );
                             },
@@ -292,6 +255,8 @@ class PageHome extends StatelessWidget {
       ),
     );
   }
+
+
 }
 
 List<int> randomShowProduct(List<JewelSnapshot> list) {
@@ -306,3 +271,5 @@ List<int> randomShowProduct(List<JewelSnapshot> list) {
   }
   return randomNumbers;
 }
+
+

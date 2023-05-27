@@ -8,6 +8,7 @@ import 'package:jewel_project/data/user_data.dart';
 import 'package:jewel_project/page/component.dart';
 import 'package:jewel_project/page/pagehome.dart';
 import 'package:jewel_project/data/widget_connect_firebase.dart';
+import 'package:jewel_project/page/pagemain.dart';
 
 
 class JewelApp extends StatelessWidget {
@@ -195,9 +196,11 @@ class _PageLoginState extends State<PageLogin> {
         // Kéo danh sách người dùng về và kiểm tra xem đã có thông tin hay chưa
         convertStreamToList(UserSnapshot.getAllUser()).then((resultList) {
           bool hasInfo = false;
+          String temp = "Customer";
           for(UserSnapshot user in resultList) {
             print(user.user.email);
             if(user.user.email == txtEmail.text) {
+              temp = user.user.name;
               hasInfo = true;
               break;
             }
@@ -205,7 +208,7 @@ class _PageLoginState extends State<PageLogin> {
           // Nếu có rồi thì chạy thẳng vào Home
           if(hasInfo) {
             Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => PageHome()),
+              MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
                   (route) => false,
             );
           }
@@ -213,7 +216,7 @@ class _PageLoginState extends State<PageLogin> {
           else {
             UserItem newUser = UserItem(
               id: "",
-              name: "",
+              name: "Customer",
               address: "",
               email: txtEmail.text,
               phone: "",
@@ -222,7 +225,7 @@ class _PageLoginState extends State<PageLogin> {
             );
             UserSnapshot.add(newUser);
             Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => PageHome()),
+              MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
                   (route) => false,
             );
           }
@@ -272,8 +275,45 @@ class _PageLoginState extends State<PageLogin> {
         FirebaseAuth.instance.signInWithCredential(credential)
             .then((value){
           if (value!=null){
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => PageHome(),), (route) => false);
+            // Navigator.of(context).pushAndRemoveUntil(
+            //     MaterialPageRoute(builder: (context) => PageMain(name: googleUser.displayName!),), (route) => false);
+            convertStreamToList(UserSnapshot.getAllUser()).then((resultList) {
+              bool hasInfo = false;
+              String temp = googleUser.displayName!;
+              for(UserSnapshot user in resultList) {
+                print(user.user.email);
+                if(user.user.email == googleUser.email) {
+                  hasInfo = true;
+                  break;
+                }
+              }
+              // Nếu có rồi thì chạy thẳng vào Home
+              if(hasInfo) {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
+                      (route) => false,
+                );
+              }
+              // Nếu không thì tạo người dùng mới, thêm vào firebase rồi mới vào Home
+              else {
+                UserItem newUser = UserItem(
+                  id: "",
+                  name: temp,
+                  address: "",
+                  email: googleUser.email,
+                  phone: "",
+                  isUpdated: false,
+                  age: 0,
+                );
+                UserSnapshot.add(newUser);
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
+                      (route) => false,
+                );
+              }
+            }).catchError((error) {
+              print(error);
+            });
           }
         } );
   }
@@ -306,8 +346,40 @@ class _PageLoginState extends State<PageLogin> {
                   timeOut: 60,
                   smsTesCode: "123456",
                   smsCodePrompt: () => showPromtSMSCodeInput(context),
-                  onSigned: () => Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => PageHome(),),(route) => false)
+                  onSigned: () {
+                    convertStreamToList(UserSnapshot.getAllUser()).then((resultList) {
+                      bool hasInfo = false;
+                      String temp = "Customer";
+                      for(UserSnapshot user in resultList) {
+                        if(user.user.phone == txtPhone.text) {
+                          hasInfo = true;
+                          break;
+                        }
+                      }
+                      // Nếu có rồi thì chạy thẳng vào Home
+                      if(hasInfo) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => PageMain(name: "Customer", phone: FirebaseAuth.instance.currentUser!.phoneNumber,),),(route) => false);
+                      }
+                      // Nếu không thì tạo người dùng mới, thêm vào firebase rồi mới vào Home
+                      else {
+                        UserItem newUser = UserItem(
+                          id: "",
+                          name: temp,
+                          address: "",
+                          email: "customer@gmail.com",
+                          phone: txtPhone.text,
+                          isUpdated: false,
+                          age: 0,
+                        );
+                        UserSnapshot.add(newUser);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => PageMain(name: "Customer", phone: FirebaseAuth.instance.currentUser!.phoneNumber,),),(route) => false);
+                      }
+                    }).catchError((error) {
+                      print(error);
+                    });
+                  },
               );
             }
 

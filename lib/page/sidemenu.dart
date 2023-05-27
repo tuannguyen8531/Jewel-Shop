@@ -11,7 +11,11 @@ import 'component.dart';
 class SideMenu extends StatelessWidget {
   SideMenu({super.key,
     required this.email,
+    required this.name,
+    required this.focusNode
   });
+  FocusNode focusNode;
+  String name;
   String email;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class SideMenu extends StatelessWidget {
       elevation: 0,
       child: Column(
         children: [
-          InfoCard(name: "Zen", email: email),
+          InfoCard(name: name, email: email),
           const SizedBox(height: 15,),
           const Padding(
             padding: EdgeInsets.only(left: 24, right: 24),
@@ -53,9 +57,29 @@ class SideMenu extends StatelessWidget {
               ),
             ],
           ),
-          MenuTitle(title: "Products", icon: Icons.diamond, destination: const PageList(),),
-          MenuTitle(title: "Cart", icon: Icons.shopping_cart, destination: const PageCart(),),
-          MenuTitle(title: "Search", icon: Icons.search,),
+          MenuTitle(title: "Products", icon: Icons.diamond, destination: PageList(icon: Text("")),),
+          MenuTitle(title: "Cart", icon: Icons.shopping_cart, destination: PageCart(icon: Text(""),),),
+          Column(
+            children: [
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  if(focusNode!=null) {
+                    FocusScope.of(context).requestFocus(focusNode);
+                  }
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.search_sharp, color: Colors.orange,),
+                ),
+                title: const Text(
+                  "Search",
+                  style: TextStyle(color: Colors.orange),
+                ),
+              ),
+            ],
+          ),
           const Padding(
             padding: EdgeInsets.only(left: 24, right: 24),
             child: Divider(

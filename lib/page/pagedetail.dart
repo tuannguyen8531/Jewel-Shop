@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jewel_project/data/cart_data.dart';
 import 'package:jewel_project/data/jewel_data.dart';
+import 'package:jewel_project/page/component.dart';
 import 'package:jewel_project/page/pagecart.dart';
 
 
@@ -82,7 +83,7 @@ class PageDetail extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const PageCart(),),);
+                            MaterialPageRoute(builder: (context) => PageCart(icon: const BackIcon()),),);
                         },
                         icon: const Icon(
                           Icons.shopping_cart_rounded,

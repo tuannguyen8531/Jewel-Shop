@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -282,3 +283,36 @@ class ProfileMenuTitle extends StatelessWidget {
     );
   }
 }
+
+class BackIcon extends StatelessWidget {
+  const BackIcon({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+      icon: const Icon(
+        CupertinoIcons.left_chevron,
+        color: Colors.black,
+      ),
+    );
+  }
+}
+
+class BackNull extends StatelessWidget {
+  const BackNull({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Icon(Icons.add, color: Colors.transparent,);
+  }
+}
+
+void showSnackBar(BuildContext context, String message, int second) {
+  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), duration: Duration(seconds: second),)
+  );
+}
+

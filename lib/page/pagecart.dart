@@ -1,27 +1,24 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/data/cart_data.dart';
+import 'package:jewel_project/data/user_data.dart';
+import 'package:jewel_project/page/component.dart';
 import 'package:jewel_project/page/dialogconfirm.dart';
+import 'package:jewel_project/page/pageupdateinfo.dart';
 
 class PageCart extends StatelessWidget {
-  const PageCart({Key? key}) : super(key: key);
-
+  PageCart({super.key,
+    required this.icon,
+  });
+  Widget icon;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(
-              CupertinoIcons.left_chevron,
-              color: Colors.black,
-            ),
-          ),
+          leading: icon,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
@@ -36,8 +33,10 @@ class PageCart extends StatelessWidget {
           ),
           actions: [
             IconButton(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
               onPressed: () {},
-              icon: SvgPicture.asset("assets/icons/notification.svg"),
+              icon: SvgPicture.asset("assets/icons/notification.svg", color: Colors.transparent,),
             ),
           ],
         ),
@@ -237,24 +236,78 @@ class PageCart extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Center(
-                        child: SizedBox(
-                          width: 200,
-                          height:  48,
-                          child: ElevatedButton(
-                              onPressed:(){
-                                showConfirmDialog(context, "Confirm Delivered");
-                              } ,
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.orange ,
-                                  shape: const StadiumBorder(),
+                    StreamBuilder<List<UserSnapshot>>(
+                      stream: UserSnapshot.getAllUser(),
+                      builder: (context, snapshot) {
+                        if(snapshot.hasError) {
+                          return const Center(
+                            child: Text("Error!"),
+                          );
+                        }
+                        else {
+                          if(!snapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          else {
+                            var listUser = snapshot.data!;
+                            String currentEmail;
+                            if(FirebaseAuth.instance.currentUser!.email==null) {
+                              currentEmail = FirebaseAuth.instance.currentUser!.phoneNumber!;
+                            }
+                            else {
+                              currentEmail = FirebaseAuth.instance.currentUser!.email!;
+                            }
+                            UserSnapshot? currentUser;
+                            for(var user in listUser) {
+                              if(user.user.email==currentEmail) {
+                                currentUser = user;
+                              }
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Center(
+                                child: SizedBox(
+                                  width: 200,
+                                  height:  48,
+                                  child: ElevatedButton(
+                                    onPressed:() async {
+                                      if(currentUser!.user.isUpdated) {
+                                        if(listProducts.isEmpty) {
+                                          showSnackBar(context, "Nothing to pay", 3);
+                                        }
+                                        else {
+                                          final result = await showConfirmDialog(context, "Pay Confirm");
+                                          if(result) {
+                                            for(var item in listProducts) {
+                                              item.delete();
+                                            }
+                                          }
+                                          else {
+                                            return;
+                                          }
+                                        }
+                                      }
+                                      else {
+                                        Navigator.push(
+                                          context, 
+                                           MaterialPageRoute(builder: (context) => PageEditInfo(userSnapshot: currentUser!),),
+                                        );
+                                      }
+                                    } ,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.orange ,
+                                      shape: const StadiumBorder(),
+                                    ),
+                                    child: const Text("Pay"),
+                                  ),
+                                ),
                               ),
-                              child: const Text("Pay"),
-                          ),
-                        ),
-                      ),
+                            );
+                          }
+                        }
+                      },
                     ),
                   ],
                 );

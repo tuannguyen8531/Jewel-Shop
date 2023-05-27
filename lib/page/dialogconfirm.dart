@@ -2,17 +2,8 @@
 import 'package:flutter/material.dart';
 import 'component.dart';
 
-void showConfirmDialog(BuildContext context, String title){
-  GlobalKey<FormState> formConfirm = GlobalKey<FormState>();
-  TextEditingController txtName = TextEditingController();
-  TextEditingController txtAddress = TextEditingController();
-  TextEditingController txtPhone = TextEditingController();
-
-  saveInfor(BuildContext context){
-    if(formConfirm.currentState!.validate()){
-      formConfirm.currentState!.save();
-    }
-  }
+Future<bool> showConfirmDialog(BuildContext context, String title) async{
+  bool result = false;
   var dialog = AlertDialog(
     title:Container(
       decoration: BoxDecoration(
@@ -27,91 +18,56 @@ void showConfirmDialog(BuildContext context, String title){
           children: [
             Text(
               title,
-              style: Theme.of(context).textTheme.titleMedium,
+              style: TextStyle(color: Colors.white),
             ),
           ],
         ),
       ),
     ),
-    content:
-    Container(
-      height: 333,
+    content: SizedBox(
+      height: 100,
       width: 333,
-      child: Form(
-        key: formConfirm,
-        autovalidateMode: AutovalidateMode.disabled,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-                padding:const EdgeInsets.symmetric(horizontal:10, vertical: 10),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 30),
-                    BuildTextFormField(
-                      keyboardType: TextInputType.text,
-                      controller: txtName,
-                      validator: (value) => validatName(value),
-                      label: "Name",
-                      icon: Icons.person,
-                      obscureText: false,
-                      suffixIcon: null,
-                    ),
-                    const SizedBox(height: 30),
-                    BuildTextFormField(
-                      keyboardType: TextInputType.text,
-                      controller: txtAddress,
-                      validator: (value) => validateAddress(value),
-                      label: "Address",
-                      icon: Icons.place,
-                      obscureText: false,
-                      suffixIcon: null,
-                    ),
-                    const SizedBox(height: 30),
-                    BuildTextFormField(
-                      keyboardType: TextInputType.number,
-                      controller: txtPhone,
-                      validator: (value) => validatePhone(value),
-                      label: "Phone",
-                      icon: Icons.phone,
-                      obscureText: false,
-                      suffixIcon: null,
-                    ),
-                  ],
-                ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange, // Background color
-                    ),
-                    onPressed: (){ saveInfor(context);},
-                    child: const Text("Save"))
-              ],
-            ),
-          ],
-        ),
+      child: Column(
+        children: const [
+          Text("Are you sure want to pay all the products in your cart?"),
+        ],
       ),
     ),
+    actions: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          ButtonWidget(
+            context: context,
+            width: 155,
+            height: 40,
+            icon: Icons.verified_user,
+            label: "OK",
+            press: () {
+              result = true;
+              Navigator.of(context).pop(result);
+            },
+          ),
+          ButtonWidget(
+            context: context,
+            width: 155,
+            height: 40,
+            icon: Icons.cancel,
+            label: "Cancel",
+            press: () {
+              result = false;
+              Navigator.of(context).pop(result);
+            },
+          ),
+        ],
+      ),
+    ],
   );
 
-  showDialog(context: context, builder: (context) => dialog);
+  result = await showDialog<bool>(
+    context: context,
+    builder: (BuildContext context) => dialog,
+  ) ?? false;
+  return result;
 }
 
-
-String? validatName(String? s){
-  return s == null || s.isEmpty ? "Enter your name" : null;
-}
-
-String? validateAddress(String? s){
-  return s == null || s.isEmpty ? "Enter your address" : null;
-}
-
-String? validatePhone(String? s){
-  return s == null || s.isEmpty ? "Enter your phone" : null;
-}
-String? validateEmail(String? s) {
-  return s == null || s.isEmpty ? "Enter your email" :  null;
-}

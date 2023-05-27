@@ -1,27 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:jewel_project/page/pagedetail.dart';
 import 'package:jewel_project/data/jewel_data.dart';
 
 class PageList extends StatelessWidget {
-  const PageList({super.key});
-
+  PageList({
+    super.key,
+    required this.icon,
+  });
+  Widget icon;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(
-            CupertinoIcons.left_chevron,
-            color: Colors.black,
-          ),
-        ),
+        leading: icon,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
@@ -36,8 +29,10 @@ class PageList extends StatelessWidget {
         ),
         actions: [
           IconButton(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
             onPressed: () {},
-            icon: SvgPicture.asset("assets/icons/notification.svg"),
+            icon: const Icon(Icons.add, color: Colors.transparent,)
           ),
         ],
       ),
