@@ -18,8 +18,8 @@ class JewelApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyFirebaseConnection(
         builder: (context) => const PageLogin(),
-        errorMessage: "Lỗi",
-        connectingMessage: "Xe đạp ơi"
+        errorMessage: "Error!",
+        connectingMessage: "Connecting..."
     );
   }
 }
