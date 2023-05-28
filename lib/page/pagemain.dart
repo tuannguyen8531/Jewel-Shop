@@ -44,7 +44,7 @@ class _PageMainState extends State<PageMain> {
     }
     return Scaffold(
       drawer: Drawer(
-        width: 333,
+        width: ScreenSize.getScreenWidth(context) * 0.8,
         backgroundColor: Colors.white,
         elevation: 0,
         child: Column(
@@ -75,7 +75,7 @@ class _PageMainState extends State<PageMain> {
             ),
             buildListTileMenu(context,Icons.account_box, "User Info", 3),
             buildListTileMenu(context,Icons.message, "About Us", 0),
-            const SizedBox(height: 350,),
+            SizedBox(height: ScreenSize.getScreenHeight(context) * 0.35,),
             // Nút logout
             Column(
               children: [
@@ -128,7 +128,9 @@ class _PageMainState extends State<PageMain> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showSnackBar(context, "Feature is under development!", 2);
+            },
             icon: SvgPicture.asset("assets/icons/notification.svg"),
           ),
         ],

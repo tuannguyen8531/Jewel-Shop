@@ -66,9 +66,12 @@ class PageTypes extends StatelessWidget {
                 );
               }
               else {
+                // Lấy danh sách các JewelSnapshot
                 var list = snapshot.data!;
                 List<JewelSnapshot> gems = [];
+                // Kiểm tra xem Jewel trong JewelSnapshot thuộc loại nào
                 for(var gem in list) {
+                  // Nếu cùng loại thì add vào
                   if(gem.jewel.idType==type ||
                       gem.jewel.name.toLowerCase().contains(type) ||
                       gem.jewel.name.contains(type)

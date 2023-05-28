@@ -64,6 +64,7 @@ class PageHome extends StatelessWidget {
                                 hintText: "Search everything...",
                                 prefixIcon: IconButton(
                                   icon: const Icon(Icons.search),
+                                  // Nhấn nút tìm kiếm đưa text tìm kiếm vào PageType.
                                   onPressed: () => {
                                     Navigator.push(
                                       context,
@@ -121,6 +122,7 @@ class PageHome extends StatelessWidget {
                                         icon: listTypes[index].jewelType.iconType,
                                         type: listTypes[index].jewelType.nameType,
                                         press: () {
+                                          // Chuyển đến PageType với tên loại
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(

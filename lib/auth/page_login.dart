@@ -381,7 +381,7 @@ class _PageLoginState extends State<PageLogin> {
                         id: "",
                         name: temp,
                         address: "",
-                        email: "customer@gmail.com",
+                        email: txtPhone.text,
                         phone: txtPhone.text,
                         isUpdated: false,
                         age: 0,

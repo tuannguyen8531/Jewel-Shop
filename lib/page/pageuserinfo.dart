@@ -68,11 +68,11 @@ class PageUserInfo extends StatelessWidget {
                         child: Center(
                           child: Column(
                             children: [
-                              const SizedBox(height: 50,),
-                              const SizedBox(
-                                width: 120,
-                                height: 120,
-                                child: CircleAvatar(
+                              SizedBox(height: ScreenSize.getScreenWidth(context) * 0.032,),
+                              SizedBox(
+                                width: ScreenSize.getScreenWidth(context) * 0.286,
+                                height: ScreenSize.getScreenHeight(context) * 0.128,
+                                child: const CircleAvatar(
                                   backgroundImage: AssetImage("assets/images/background.png"),
                                 ),
                               ),

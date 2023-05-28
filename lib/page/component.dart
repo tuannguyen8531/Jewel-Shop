@@ -1,6 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
+class ScreenSize {
+  static double getScreenWidth(BuildContext context) {
+    return MediaQuery.of(context).size.width;
+  }
+  static double getScreenHeight(BuildContext context) {
+    return MediaQuery.of(context).size.height;
+  }
+}
+
 // Widget tạo một card sản phẩm dùng trong PageHome
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -24,7 +34,7 @@ class ProductCard extends StatelessWidget {
           children: [
             Image.network(
               image,
-              height: 180,
+              height: ScreenSize.getScreenWidth(context) * 0.43,
             ),
             Text(name),
             Text(
@@ -51,7 +61,7 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 120,
+      width: ScreenSize.getScreenWidth(context) * 0.286,
       child: OutlinedButton(
         onPressed: press,
         child: Padding(
@@ -240,9 +250,9 @@ class ProfileMenuTitle extends StatelessWidget {
         height: 35,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),
-            color: Colors.black54.withOpacity(0.1)
+            color: text=="" || text=="0" ? Colors.red.withOpacity(0.5) : Colors.green.withOpacity(0.5),
         ),
-        child: const Icon(Icons.chevron_right_sharp),
+        child: text=="" || text=="0" ? const Icon(Icons.close) : const Icon(Icons.check),
       ),
     );
   }
