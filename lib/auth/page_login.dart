@@ -6,11 +6,11 @@ import 'package:jewel_project/auth/page_forgot_password.dart';
 import 'package:jewel_project/auth/page_register.dart';
 import 'package:jewel_project/data/user_data.dart';
 import 'package:jewel_project/page/component.dart';
-import 'package:jewel_project/page/pagehome.dart';
 import 'package:jewel_project/data/widget_connect_firebase.dart';
 import 'package:jewel_project/page/pagemain.dart';
 
 
+// App tạo kết nối đến Firebase, kết nối thành công sẽ chuyển đến PageLogin
 class JewelApp extends StatelessWidget {
   const JewelApp({Key? key}) : super(key: key);
 
@@ -24,7 +24,7 @@ class JewelApp extends StatelessWidget {
   }
 }
 
-
+// Trang đăng nhập
 class PageLogin extends StatefulWidget {
   const PageLogin({Key? key}) : super(key: key);
 
@@ -33,10 +33,13 @@ class PageLogin extends StatefulWidget {
 }
 
 class _PageLoginState extends State<PageLogin> {
+  // Key của form để lưu trạng thái của form
   GlobalKey<FormState> formState = GlobalKey<FormState>();
+  // Các controller của các Text input
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
   TextEditingController txtPhone = TextEditingController();
+  // Các biến để kiểm tra email và pass trên Firebase
   String validateEmail="";
   String validatePassword="";
   @override
@@ -54,36 +57,45 @@ class _PageLoginState extends State<PageLogin> {
                   const SizedBox(height: 30,),
                   Form(
                       key:formState,
+                      // Tắt tự động xác thực
                       autovalidateMode: AutovalidateMode.disabled,
                       child: Column(
                         children: [
+                          // Widget input bên component.dart
                           TextFormFieldWidget(
                             keyboardType: TextInputType.emailAddress,
                             controller: txtEmail,
+                            // Kiểm tra có đúng định dạng email không
                             validator: (value) => _validateEmail(value),
                             label: "Email",
                             icon: Icons.email_rounded,
+                            // obscrureText dùng để ẩn hiện, ban đầu obscrureText = false thì sẽ hiện email
                             obscureText: false,
+                            // suffixIcon là icon phía sau input
                             suffixIcon: null,
                           ),
                           const SizedBox(height: 10,),
                           SizedBox(
                             height: 25,
+                            // Hiển thị email có trên Firebase chưa
                             child: validateEmail=="" ? null : const Text("Please check your email again", style: TextStyle(color: Colors.red),),
                           ),
                           const SizedBox(height: 10,),
                           TextFormFieldWidget(
                             keyboardType: TextInputType.text,
                             controller: txtPassword,
+                            // Kiểm tra pass có hợp lệ
                             validator: (value) => _validatePassword(value),
                             label: "Password",
                             icon: Icons.lock,
-                            obscureText: true, // obscrureText dùng để ẩn hiện, ban đầu obscrureText = false thì sẽ ẩn pass
+                            // obscrureText dùng để ẩn hiện, ban đầu obscrureText = true thì sẽ ẩn pass
+                            obscureText: true,
                             suffixIcon: null,
                           ),
                           const SizedBox(height: 10,),
                           SizedBox(
                             height: 25,
+                            // Hiển thị pass có trên Firebase chưa
                             child: validatePassword=="" ? null : const Text("Please check your password again", style: TextStyle(color: Colors.red),),
                           ),
                           Row(
@@ -186,31 +198,40 @@ class _PageLoginState extends State<PageLogin> {
     );
   }
   void signInWithEmail  () async {
+    // Thử đăng nhập bằng email
     try {
       showSnackBar(context, "Logging in...", 1);
+      // Đăng nhập bằng email và pass
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: txtEmail.text,
         password: txtPassword.text,
       );
-      // Kiểm tra xem userCredential có khác null hay không
+      // Trong try đã đang nhập thành công
+      // Thực hiện lấy danh sách người dùng trên firebase về
+      // Chuyển danh sách người dùng từ Stream<List> về <List> bằng hàm
+      // convertStreamToList(Stream<List>) => List<>
       convertStreamToList(UserSnapshot.getAllUser()).then((resultList) {
+        // Chuyển thành công, resultList là List<UserSnapshot>
+        // Biến kiểm tra thông tin tài khoản đăng nhập đã có trong bảng users chưa
         bool hasInfo = false;
         String temp = "Customer";
-        for(UserSnapshot user in resultList) {
-          if(user.user.email == txtEmail.text) {
-            temp = user.user.name;
+        // Chạy vòng lặp kiểm tra
+        for(UserSnapshot userSnapshot in resultList) {
+          // Nếu email nhập vào có trong bảng users
+          if(userSnapshot.user.email == txtEmail.text) {
+            temp = userSnapshot.user.name;
             hasInfo = true;
             break;
           }
         }
-        // Nếu có rồi thì chạy thẳng vào Home
+        // Nếu có rồi thì chạy thẳng vào PageMain
         if(hasInfo) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
                 (route) => false,
           );
         }
-        // Nếu không thì tạo người dùng mới, thêm vào firebase rồi mới vào Home
+        // Nếu không thì tạo người dùng mới, thêm vào bảng users rồi mới vào PageMain
         else {
           UserItem newUser = UserItem(
             id: "",
@@ -229,7 +250,7 @@ class _PageLoginState extends State<PageLogin> {
         }
       }).catchError((error) {});
     } on FirebaseAuthException catch (e) {
-      // Bắt lỗi không tìm thấy email
+      // Lỗi không có tài khoản email trên firebase
       if (e.code == 'user-not-found') {
         setState(() {
           validateEmail="Incorrect Email";
@@ -237,7 +258,7 @@ class _PageLoginState extends State<PageLogin> {
       } else if (e.code == 'wrong-password') {
         // Mật khẩu không đúng
         setState(() {
-          validateEmail="";
+          validateEmail= "";
           validatePassword = "Password incorrect";
         });
       }
@@ -251,18 +272,22 @@ class _PageLoginState extends State<PageLogin> {
      catch (e) {
       print('Lỗi khi đăng nhập: $e');
     }
+    // Gọi hàm kiểm tra tính hợp lệ của form
     _save(context);
 
   }
   void signInWithGoogle() async{
+        // Tạo đối tượng đăng nhập
         GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        // Lấy thông tin xác thực từ yêu cầu đăng nhập Google
         GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+        // Đăng nhập bằng token
         var credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
-        FirebaseAuth.instance.signInWithCredential(credential)
-            .then((value){
+        FirebaseAuth.instance.signInWithCredential(credential).then((value){
+          // Đăng nhập thành công
           convertStreamToList(UserSnapshot.getAllUser()).then((resultList) {
             bool hasInfo = false;
             String temp = googleUser.displayName!;
@@ -304,6 +329,8 @@ class _PageLoginState extends State<PageLogin> {
           });
         } );
   }
+
+  // Hiển thị dialog nhập số điện thoại
   void showDialogPhone(BuildContext context) {
     AlertDialog dialog = AlertDialog(
       title: const Text("Enter your phone", textAlign: TextAlign.center,),
@@ -386,6 +413,7 @@ class _PageLoginState extends State<PageLogin> {
 
   }
 
+  // Đăng nhập bằng Facebook
   void signInWithFacebook() async {
         // Trigger the sign-in flow
         final LoginResult loginResult = await FacebookAuth.instance.login();
@@ -395,7 +423,7 @@ class _PageLoginState extends State<PageLogin> {
          await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential)
              .then((value){
            Navigator.of(context).pushAndRemoveUntil(
-               MaterialPageRoute(builder: (context) => PageHome(),), (route) => false);
+               MaterialPageRoute(builder: (context) => const PageMain(name: "Customer",),), (route) => false);
          } ).catchError((onError){
            print(onError);
          } );
@@ -403,16 +431,15 @@ class _PageLoginState extends State<PageLogin> {
 
   void signInWithPhoneNumber(BuildContext context, { void Function()? onSigned, String? signIningMessage, String? signedMessage,
     Future<String?> Function()? smsCodePrompt, int timeOut = 30, required phoneNumber, String? smsTesCode
-  } ) {
+  }) {
+    // Đăng nhập bằng số điện thoại
     FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phoneNumber,
+        // Thời gian tồn tại xác thực
         timeout: Duration(seconds: timeOut),
-        verificationCompleted: (phoneAuthCredential)async {
-
-        },
-        verificationFailed: (error) {
-
-        },
+        verificationCompleted: (phoneAuthCredential)async {},
+        verificationFailed: (error) {},
+        // Khi đã xác
         codeSent: (verificationId, forceResendingToken) async {
           print("Verification ID: $verificationId");
               String? smsCode = smsTesCode;
@@ -439,6 +466,7 @@ class _PageLoginState extends State<PageLogin> {
     );
   }
 
+  // Hiển thị dialog nhập SMS code
   Future<String?> showPromtSMSCodeInput(BuildContext context) async {
     TextEditingController sms =TextEditingController();
     AlertDialog dialog =AlertDialog(
@@ -465,8 +493,8 @@ class _PageLoginState extends State<PageLogin> {
     return res;
   }
 
-
- String? _validateEmail(String? value) {
+  // Các hàm điều kiện tra tính hợp lệ
+  String? _validateEmail(String? value) {
     if (value == null || value.isEmpty){
       return "Please enter your email" ;
     }
@@ -481,6 +509,8 @@ class _PageLoginState extends State<PageLogin> {
     }
     return null;
   }
+
+  // Hàm kiểm tra tính hợp lệ của form
   _save(BuildContext context) {
     if (formState.currentState!.validate()){
       formState.currentState!.save();
@@ -491,6 +521,7 @@ class _PageLoginState extends State<PageLogin> {
 
 
 // Hàm chuyển đổi Strem<List<Item>> thành List<Item>
+// Hàm bất đồng bộ trả về Future<List<Item>> đầu tiên của Stream.
 Future<List<UserSnapshot>> convertStreamToList(Stream<List<UserSnapshot>> stream) async  {
   return await stream.first;
 }

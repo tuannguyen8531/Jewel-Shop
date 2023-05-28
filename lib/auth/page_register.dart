@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jewel_project/auth/page_login.dart';
 import 'package:jewel_project/page/component.dart';
-import 'package:jewel_project/page/pagehome.dart';
-
 import '../data/user_data.dart';
 import '../page/pagemain.dart';
 class PageRegister extends StatefulWidget {
@@ -32,10 +30,10 @@ class _PageRegisterState extends State<PageRegister> {
           padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
           child: Column(
             children: [
-                Image.asset("assets/images/jewel_shop.png", height: 220 ,),
-                const Text("Sign Up", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: 20, height: 1.5),),
-                const SizedBox(height: 30,),
-                Form(
+              Image.asset("assets/images/jewel_shop.png", height: 220 ,),
+              const Text("Sign Up", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: 20, height: 1.5),),
+              const SizedBox(height: 30,),
+              Form(
                   key:formState,
                   autovalidateMode: AutovalidateMode.disabled,
                   child: Column(
@@ -83,8 +81,8 @@ class _PageRegisterState extends State<PageRegister> {
                     ],
                   )
                 ),
-                const SizedBox(height: 30,),
-                ButtonWidget(
+              const SizedBox(height: 30,),
+              ButtonWidget(
                     context: context,
                     width: 200,
                     height: 48,
@@ -92,7 +90,6 @@ class _PageRegisterState extends State<PageRegister> {
                     label: "Sign Up",
                     press: () => createUserWithEmailAndPassword(),
                 ),
-                // buildButton(context,200,48,Icons.key,"Sign Up", createUserWithEmaiAndPassword),
               const SizedBox(height: 30,),
               Row(
                 children: const [
@@ -186,6 +183,7 @@ class _PageRegisterState extends State<PageRegister> {
 void createUserWithEmailAndPassword  () async{
   _save(context);
   try {
+    // Tạo tài khoản đăng nhập mới trên firebase
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: txtEmail.text,
         password: txtPassword.text
@@ -193,6 +191,7 @@ void createUserWithEmailAndPassword  () async{
     showSnackBar(context, "Registed successfully!", 5);
     Navigator.of(context).pop();
   } on FirebaseAuthException catch(e) {
+    // Nếu tài khoản đã tồn tại
     print(e.code);
     showSnackBar(context, "Email already existed!", 7);
   }
@@ -362,7 +361,7 @@ void createUserWithEmailAndPassword  () async{
     await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential)
         .then((value){
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => PageHome(),), (route) => false);
+          MaterialPageRoute(builder: (context) => const PageMain(name: "Customer"),), (route) => false);
     } ).catchError((onError){
       print(onError);
     } );

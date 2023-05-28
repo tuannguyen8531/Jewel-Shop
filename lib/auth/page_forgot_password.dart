@@ -45,14 +45,14 @@ class PageForgotPassword extends StatelessWidget {
                 icon: const Icon(Icons.send),
                 label: const Text("Continue"),
                 onPressed: () async {
-                  _save(context);
+                    _save(context);
+                    // Gửi email reset password
                     await FirebaseAuth.instance.sendPasswordResetEmail(
                       email: txtEmail.text,
                     );
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text(
-                            "Đã gửi yêu cầu reset mật khẩu đến email của bạn"),
+                        content: Text("Reset password email has been sent to your email!"),
                       ),
                     );
                   }

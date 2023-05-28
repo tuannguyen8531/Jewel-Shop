@@ -63,8 +63,11 @@ class UserSnapshot {
     );
   }
 
+  // Hàm lấy danh sách người dùng trên firebase về, truy cập toàn cục
   static Stream<List<UserSnapshot>> getAllUser() {
+    // Tạo một Stream lấy các document trong collection "users"
     Stream<QuerySnapshot> streamQS = FirebaseFirestore.instance.collection("users").snapshots();
+    // Chuyển Stream từ Stream<QuerySnapshot> thành
     return streamQS.map((qs) => qs.docs)
         .map((listDocSnap) => listDocSnap.map((docSnap) =>
         UserSnapshot.fromSnapshot(docSnap)).toList());

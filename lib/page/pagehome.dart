@@ -93,6 +93,7 @@ class PageHome extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
+                      // Một widget FutureBuilder có dữ liệu là một List<JewelTypeSnapshot>
                       FutureBuilder<List<JewelTypeSnapshot>>(
                         future: JewelTypeSnapshot.getListJewelType(),
                         builder: (context, snap) {

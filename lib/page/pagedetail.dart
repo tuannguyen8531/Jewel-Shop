@@ -9,6 +9,7 @@ import 'package:jewel_project/page/pagecart.dart';
 
 class PageDetail extends StatelessWidget {
 
+
   final JewelSnapshot jewelSnapshot;
 
   const PageDetail({
@@ -58,6 +59,9 @@ class PageDetail extends StatelessWidget {
           //Stackwidget cho phép chúng ta xếp chồng nhiều layer lên nhau.
           // Widget có nhiều children và sắp xếp chúng từ dưới lên trên.
           // Vì vậy, mục đầu tiên là dưới cùng và cuối cùng là trên cùng.
+
+          // Bọc Stack trong StreamBuilder để hiển thị
+          // số lượng mặt hàng trong giỏ hàng
           StreamBuilder<List<ProductItemSnapshot>>(
             stream: ProductItemSnapshot.getAllProductItem(),
             builder: (context, snapshot) {
@@ -242,7 +246,9 @@ class PageDetail extends StatelessWidget {
                       ],
                     ),
                     const SizedBox( height: 25,),
-                   // nút add mặt hàng vào giỏ hàng
+
+                    // Bọc nút ADD TO CART trong StreamBuilder để kiểm tra
+                    // xem mặt hàng này đã có trong giỏ hàng hay chưa
                     StreamBuilder<List<ProductItemSnapshot>>(
                       stream: ProductItemSnapshot.getAllProductItem(),
                       builder: (context, cart) {
@@ -260,21 +266,21 @@ class PageDetail extends StatelessWidget {
                           else {
                             bool isAdded = false;
                             var list = cart.data!;
+                            // Chạy vòng lặp kiểm tra danh sách trong cart
                             for(var item in list) {
                               if(item.productItem.id == jewelSnapshot.jewel.id) {
                                 isAdded = true;
                                 break;
                               }
                             }
+                            // Nếu đã có mặt hàng này
                             if(isAdded) {
                               return Center(
                                 child: SizedBox(
                                   width: 200,
                                   height:  48,
                                   child: ElevatedButton(
-                                    onPressed:(){
-
-                                    },
+                                    onPressed:(){},
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.grey ,
                                       shape: const StadiumBorder(),
@@ -284,6 +290,7 @@ class PageDetail extends StatelessWidget {
                                 ),
                               );
                             }
+                            // Nếu chưa có mặt hàng này
                             else {
                               return Center(
                                 child: SizedBox(
@@ -291,6 +298,8 @@ class PageDetail extends StatelessWidget {
                                   height:  48,
                                   child: ElevatedButton(
                                     onPressed:(){
+                                      // Tạo ra một mặt hàng mới với thông tin từ
+                                      // JewelSnapshot được truyền vào PageDetail
                                       ProductItem product = ProductItem(
                                         id: jewelSnapshot.jewel.id,
                                         name: jewelSnapshot.jewel.name,

@@ -53,15 +53,15 @@ class PageUserInfo extends StatelessWidget {
               }
               else {
                 var list = snapshot.data!;
-                String currentEmail;
+                String currentInfo;
                 if(FirebaseAuth.instance.currentUser!.email==null) {
-                  currentEmail = FirebaseAuth.instance.currentUser!.phoneNumber!;
+                  currentInfo = FirebaseAuth.instance.currentUser!.phoneNumber!;
                 }
                 else {
-                  currentEmail = FirebaseAuth.instance.currentUser!.email!;
+                  currentInfo = FirebaseAuth.instance.currentUser!.email!;
                 }
                 for(var user in list) {
-                  if(user.user.email==currentEmail) {
+                  if(user.user.email==currentInfo || user.user.phone==currentInfo) {
                     return SingleChildScrollView(
                       child: Container(
                         padding: const EdgeInsets.all(16.0),
@@ -133,7 +133,7 @@ class PageUserInfo extends StatelessWidget {
                     );
                   }
                 }
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
             }
           },

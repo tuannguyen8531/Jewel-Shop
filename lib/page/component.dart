@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
+// Widget tạo một card sản phẩm dùng trong PageHome
 class ProductCard extends StatelessWidget {
   const ProductCard({
     Key? key,
@@ -38,6 +38,7 @@ class ProductCard extends StatelessWidget {
   }
 }
 
+// Widget tạo một card danh mục dùng trong PageHome
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
     Key? key,
@@ -74,6 +75,7 @@ class CategoryCard extends StatelessWidget {
   }
 }
 
+// Widget tạo một nút màu cam có chữ có icon
 class ButtonWidget extends StatelessWidget {
   final BuildContext context;
   final double width, height;
@@ -107,6 +109,7 @@ class ButtonWidget extends StatelessWidget {
   }
 }
 
+// Widget một input có chữ có icon
 class TextFormFieldWidget extends StatelessWidget {
   final TextInputType keyboardType;
   final TextEditingController controller;
@@ -169,46 +172,7 @@ class TextFormFieldWidget extends StatelessWidget {
   }
 }
 
-class MenuTitle extends StatelessWidget {
-  const MenuTitle({super.key,
-    required this.icon,
-    required this.title,
-    this.destination,
-  });
-  final String title;
-  final IconData icon;
-  final Widget? destination;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          onTap: () {
-            if(destination!=null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => destination!,),
-              );
-            }
-            else {
-              return;
-            }
-          },
-          leading: SizedBox(
-            height: 34,
-            width: 34,
-            child: Icon(icon, color: Colors.orange,),
-          ),
-          title: Text(
-            title,
-            style: const TextStyle(color: Colors.orange),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
+// Widget hiển thị thông tin người dung trong Drawer
 class InfoCard extends StatelessWidget {
   const InfoCard({super.key,
     required this.name,
@@ -237,6 +201,7 @@ class InfoCard extends StatelessWidget {
   }
 }
 
+// Widget tạo ListTile có chữ có icon trong PageUserInfo
 class ProfileMenuTitle extends StatelessWidget {
   const ProfileMenuTitle({
     super.key,
@@ -283,6 +248,7 @@ class ProfileMenuTitle extends StatelessWidget {
   }
 }
 
+// Widget tạo một nút quay lại
 class BackIcon extends StatelessWidget {
   const BackIcon({Key? key}) : super(key: key);
   @override
@@ -299,6 +265,7 @@ class BackIcon extends StatelessWidget {
   }
 }
 
+// Widget tạo một Icon ẩn
 class BackNull extends StatelessWidget {
   const BackNull({Key? key}) : super(key: key);
 
@@ -315,6 +282,7 @@ void showSnackBar(BuildContext context, String message, int second) {
   );
 }
 
+// Hàm bất đồng bộ hiển thị dialogxcs nhận thanh toán trong PageCart
 Future<bool> showConfirmDialog(BuildContext context, String title) async{
   bool result = false;
   var dialog = AlertDialog(

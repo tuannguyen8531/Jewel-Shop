@@ -30,13 +30,15 @@ class _PageMainState extends State<PageMain> {
     const PageCart(icon: BackNull(),),
     const PageUserInfo()
   ];
-  int currentIndex=0, drawerIndex=0;
+  int currentIndex=0;
   @override
   Widget build(BuildContext context) {
     String? temp;
+    // Nếu đăng nhập bằng email, phone = null thì hiển thị email của user hiện tại
     if(widget.phone==null) {
       temp = FirebaseAuth.instance.currentUser!.email!;
     }
+    // Không thì hiển thị số điện thoại
     else {
       temp = widget.phone;
     }
@@ -74,6 +76,7 @@ class _PageMainState extends State<PageMain> {
             buildListTileMenu(context,Icons.account_box, "User Info", 3),
             buildListTileMenu(context,Icons.message, "About Us", 0),
             const SizedBox(height: 350,),
+            // Nút logout
             Column(
               children: [
                 ListTile(
@@ -148,7 +151,6 @@ class _PageMainState extends State<PageMain> {
             ),
             GButton(icon: Icons.diamond, text: "Product",),
             GButton(icon: Icons.shopping_cart, text: "Cart",),
-
             GButton(icon: Icons.person_sharp, text: "Profile",),
           ],
           selectedIndex: currentIndex,
@@ -157,30 +159,29 @@ class _PageMainState extends State<PageMain> {
               currentIndex = index;
             });
           },
-
         ),
       ),
     );
   }
 
-  ListTile buildListTileMenu(BuildContext context, IconData icon,String title, int press ) {
+  ListTile buildListTileMenu(BuildContext context, IconData icon,String title, int index) {
     return ListTile(
-                onTap: () {
-                  setState(() {
-                    currentIndex=press; // Cập nhật giá trị biến trung gian khi nhấn vào danh mục
-                  });
-                  Navigator.pop(context); // Đóng Drawer
-                },
-                leading:  SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(icon, color: Colors.orange,),
-                ),
-                title:  Text(
-                  title,
-                  style: const TextStyle(color: Colors.orange),
-                ),
-              );
+      onTap: () {
+        setState(() {
+          currentIndex=index; // Cập nhật giá trị biến trung gian khi nhấn vào danh mục
+        });
+        Navigator.pop(context); // Đóng Drawer
+      },
+      leading:  SizedBox(
+        height: 34,
+        width: 34,
+        child: Icon(icon, color: Colors.orange,),
+      ),
+      title:  Text(
+        title,
+        style: const TextStyle(color: Colors.orange),
+      ),
+    );
   }
 }
 

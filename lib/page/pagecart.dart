@@ -167,7 +167,7 @@ class PageCart extends StatelessWidget {
                                           ),
                                         ),
                                         const SizedBox( width: 0,),
-                                        //---------nút thêm  số lượng sản phẩm
+                                        // Nút thêm số lượng sản phẩm
                                         Container(
                                           padding:  const EdgeInsets.all(1),
                                           decoration:  BoxDecoration(
@@ -250,17 +250,20 @@ class PageCart extends StatelessWidget {
                           }
                           else {
                             var listUser = snapshot.data!;
-                            String currentEmail;
+                            String currentInfo;
+                            // Xử lý nếu đăng nhập bằng phone
                             if(FirebaseAuth.instance.currentUser!.email==null) {
-                              currentEmail = FirebaseAuth.instance.currentUser!.phoneNumber!;
+                              currentInfo = FirebaseAuth.instance.currentUser!.phoneNumber!;
                             }
                             else {
-                              currentEmail = FirebaseAuth.instance.currentUser!.email!;
+                              currentInfo = FirebaseAuth.instance.currentUser!.email!;
                             }
+                            // Tạo ra một UserSnaphot tạm
                             UserSnapshot? currentUser;
-                            for(var user in listUser) {
-                              if(user.user.email==currentEmail) {
-                                currentUser = user;
+                            // Lặp và lấy user hiện tại
+                            for(var userSnapshot in listUser) {
+                              if(userSnapshot.user.email==currentInfo || userSnapshot.user.phone==currentInfo) {
+                                currentUser = userSnapshot;
                               }
                             }
                             return Padding(
@@ -271,23 +274,32 @@ class PageCart extends StatelessWidget {
                                   height:  48,
                                   child: ElevatedButton(
                                     onPressed:() async {
+                                      // Nếu user hiện tại đã cập nhật thông tin
                                       if(currentUser!.user.isUpdated) {
+                                        // Kiểm tra giỏ hàng có đồ hay không
                                         if(listProducts.isEmpty) {
+                                          // Nếu không đồ
                                           showSnackBar(context, "Nothing to pay", 3);
                                         }
                                         else {
+                                          // Nếu có đồ trong giỏ hàng
+                                          // Hiển thị dialog xác nhận thanh toán
                                           final result = await showConfirmDialog(context, "Pay Confirm");
                                           if(result) {
+                                            // Nếu Ok thì thanh toán và xóa hết đồ trong giỏ hàng
                                             for(var item in listProducts) {
                                               item.delete();
                                             }
                                           }
                                           else {
+                                            // Không thì không làm gì hết
                                             return;
                                           }
                                         }
                                       }
+                                      // Nếu user hiện tại chưa cập nhật thông tin
                                       else {
+                                        // Chuyển đến trang cập nhật thông tin
                                         Navigator.push(
                                           context, 
                                            MaterialPageRoute(builder: (context) => PageEditInfo(userSnapshot: currentUser!),),
@@ -317,6 +329,7 @@ class PageCart extends StatelessWidget {
   }
 }
 
+// Hàm tính tổng tiền trong giỏ hàng
 int getTotal(List<ProductItemSnapshot> list) {
   int total = 0;
   for(var item in list) {
