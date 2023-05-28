@@ -38,6 +38,7 @@ class _MyFirebaseConnectionState extends State<MyFirebaseConnection> {
     else if(!isConnected) {
       return Center(
         child: Container(
+          color: Colors.white,
           padding: const EdgeInsets.all(15.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -76,3 +77,5 @@ class _MyFirebaseConnectionState extends State<MyFirebaseConnection> {
         .whenComplete(() => print("Init completed.")); //finally
   }
 }
+
+

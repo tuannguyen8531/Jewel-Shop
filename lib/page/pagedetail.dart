@@ -124,7 +124,7 @@ class PageDetail extends StatelessWidget {
           Image.network(
             jewelSnapshot.jewel.image,
               //tự động căn chỉnh ảnh khi kích thước diện thoại thay đổi
-            height: ScreenSize.getScreenHeight(context) * 0.4,//40%
+            height: ScreenSize.getScreenHeight(context) * 0.35,//35%
             fit:  BoxFit.cover,
           ),
           Expanded(

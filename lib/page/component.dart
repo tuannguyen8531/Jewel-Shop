@@ -1,6 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+String description = "Welcome to our Jewel Shop!\n\n"
+    "We are a passionate group with a deep love for gemstones, "
+    "and we have created a unique app for those who appreciate "
+    "the beauty of these precious stones. With our passion and "
+    "expertise in gemstones, we have built an exceptional platform "
+    "to provide you with the finest online shopping experience for gemstones.\n\n"
+    "Our gemstone app offers a diverse and extensive collection of stunning "
+    "gemstones from around the world. From pure diamonds to exquisite emeralds, "
+    "we ensure that you will find high-quality and unique gemstone products.\n\n"
+    "With our gemstone app, we hope to bring you an excellent shopping "
+    "experience and explore the marvelous beauty of the gemstone world. "
+    "Join us on this journey and create memorable experiences with these "
+    "exquisite gemstones.\n\n"
+    "Here, we would also like to express our sincere gratitude to "
+    "those who have supported the development of this app. "
+    "Without their tremendous support, the Jewel Shop app would not "
+    "have been able to reach its current state of completion.\n\n"
+    "Sincerely Thank:";
+
 
 class ScreenSize {
   static double getScreenWidth(BuildContext context) {

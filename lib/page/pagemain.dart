@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:jewel_project/auth/page_login.dart';
 import 'package:jewel_project/page/component.dart';
+import 'package:jewel_project/page/pageaboutus.dart';
 import 'package:jewel_project/page/pagecart.dart';
 import 'package:jewel_project/page/pagehome.dart';
 import 'package:jewel_project/page/pagelistall.dart';
@@ -74,7 +75,23 @@ class _PageMainState extends State<PageMain> {
               ),
             ),
             buildListTileMenu(context,Icons.account_box, "User Info", 3),
-            buildListTileMenu(context,Icons.message, "About Us", 0),
+            ListTile(
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PageAboutUs(),),
+                );
+              },
+              leading: const SizedBox(
+                height: 34,
+                width: 34,
+                child: Icon(Icons.message_outlined, color: Colors.orange,),
+              ),
+              title: const Text(
+                "About Us",
+                style: TextStyle(color: Colors.orange),
+              ),
+            ),
             SizedBox(height: ScreenSize.getScreenHeight(context) * 0.35,),
             // Nút logout
             Column(
