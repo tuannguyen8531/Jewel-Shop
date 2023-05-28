@@ -281,7 +281,7 @@ class PageDetail extends StatelessWidget {
                                   height:  48,
                                   child: ElevatedButton(
                                     onPressed:(){
-                                      showSnackBar(context, "This product has already added!", 2);
+                                      showSnackBar(context, "This product has already been added!", 2);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.grey ,
