@@ -98,9 +98,23 @@ class _PageMainState extends State<PageMain> {
               children: [
                 ListTile(
                   onTap: () async {
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => const PageLogin()), (route) => false);
+                    final result = await showConfirmDialog(
+                        context,
+                        "Log Out",
+                        "Are you sure want to log out?"
+                    );
+                    if(result) {
+                      // Nếu Ok thì đăng xuất tài khoản
+                      showSnackBar(context, "Logged out successfully!", 2);
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => const PageLogin()), (route) => false
+                      );
+                    }
+                    else {
+                      // Không thì không làm gì hết
+                      return;
+                    }
                   },
                   leading: const SizedBox(
                     height: 34,

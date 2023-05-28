@@ -167,6 +167,7 @@ class _PageEditInfoState extends State<PageEditInfo> {
                                 age: int.parse(txtAge.text),
                             );
                             await widget.userSnapshot.update(newUser);
+                            showSnackBar(context, "User updated successfully!", 2);
                             Navigator.of(context).pop();
                           },
                         )

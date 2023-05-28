@@ -143,12 +143,18 @@ class PageHome extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            "Our products",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          Row(
+                            children: const [
+                              Icon(Icons.local_fire_department_rounded, color: Colors.red,),
+                              Text(
+                                "Hot products",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.redAccent,
+                                ),
+                              ),
+                            ],
                           ),
                           TextButton(
                             onPressed: () {

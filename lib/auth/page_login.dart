@@ -226,6 +226,7 @@ class _PageLoginState extends State<PageLogin> {
         }
         // Nếu có rồi thì chạy thẳng vào PageMain
         if(hasInfo) {
+          showSnackBar(context, "Logged in successfully!", 2);
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
                 (route) => false,
@@ -243,6 +244,7 @@ class _PageLoginState extends State<PageLogin> {
             age: 0,
           );
           UserSnapshot.add(newUser);
+          showSnackBar(context, "Logged in successfully!", 2);
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
                 (route) => false,
@@ -300,7 +302,7 @@ class _PageLoginState extends State<PageLogin> {
             }
             // Nếu có rồi thì chạy thẳng vào Home
             if(hasInfo) {
-              showSnackBar(context, "Logging in...", 2);
+              showSnackBar(context, "Logged in successfully!", 2);
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
                     (route) => false,
@@ -318,7 +320,7 @@ class _PageLoginState extends State<PageLogin> {
                 age: 0,
               );
               UserSnapshot.add(newUser);
-              showSnackBar(context, "Logging in...", 2);
+              showSnackBar(context, "Logged in successfully!", 2);
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => PageMain(name: temp,)),
                     (route) => false,
@@ -371,7 +373,7 @@ class _PageLoginState extends State<PageLogin> {
                     }
                     // Nếu có rồi thì chạy thẳng vào Home
                     if(hasInfo) {
-                      showSnackBar(context, "Logging in...", 2);
+                      showSnackBar(context, "Logged in successfully!", 2);
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(builder: (context) => PageMain(name: "Customer", phone: FirebaseAuth.instance.currentUser!.phoneNumber,),),(route) => false);
                     }
@@ -387,7 +389,7 @@ class _PageLoginState extends State<PageLogin> {
                         age: 0,
                       );
                       UserSnapshot.add(newUser);
-                      showSnackBar(context, "Logging in...", 2);
+                      showSnackBar(context, "Logged in successfully!", 2);
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(builder: (context) => PageMain(name: "Customer", phone: FirebaseAuth.instance.currentUser!.phoneNumber,),),(route) => false);
                     }
@@ -422,6 +424,7 @@ class _PageLoginState extends State<PageLogin> {
         // Once signed in, return the UserCredential
          await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential)
              .then((value){
+           showSnackBar(context, "Logged in successfully!", 2);
            Navigator.of(context).pushAndRemoveUntil(
                MaterialPageRoute(builder: (context) => const PageMain(name: "Customer",),), (route) => false);
          } ).catchError((onError){

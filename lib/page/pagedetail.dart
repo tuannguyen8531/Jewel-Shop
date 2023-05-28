@@ -280,7 +280,9 @@ class PageDetail extends StatelessWidget {
                                   width: 200,
                                   height:  48,
                                   child: ElevatedButton(
-                                    onPressed:(){},
+                                    onPressed:(){
+                                      showSnackBar(context, "This product has already added!", 2);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.grey ,
                                       shape: const StadiumBorder(),
@@ -309,6 +311,7 @@ class PageDetail extends StatelessWidget {
                                         amount: 1,
                                       );
                                       ProductItemSnapshot.add(product);
+                                      showSnackBar(context, "Added the product successfully!", 2);
                                     } ,
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.orange ,

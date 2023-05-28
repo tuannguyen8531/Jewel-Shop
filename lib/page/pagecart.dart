@@ -43,7 +43,7 @@ class PageCart extends StatelessWidget {
           builder: (context, snapshot) {
             if(snapshot.hasError) {
               return const Center(
-                child: Text("Error!"),
+                child: Text("Something went wrong! Please check the internet"),
               );
             }
             else {
@@ -54,6 +54,13 @@ class PageCart extends StatelessWidget {
               }
               else {
                 var listProducts = snapshot.data!;
+
+                //Nếu không có mặt hàng nào trong giỏ hàng
+                if(listProducts.isEmpty) {
+                  return const Center(
+                    child: Text("Nothing here. Try adding some our products!"),
+                  );
+                }
                 return Column(
                   children: [
                     Expanded(child:  ListView.separated(
@@ -123,8 +130,21 @@ class PageCart extends StatelessWidget {
                                       color:  Colors.redAccent,
                                       iconSize: 20,
                                       icon: const Icon( Icons.delete),
-                                      onPressed: () {
-                                        listProducts[index].delete();
+                                      onPressed: () async {
+                                        final result = await showConfirmDialog(
+                                            context,
+                                            "Delete",
+                                            "Are you sure want to remove this product from your cart?"
+                                        );
+                                        if(result) {
+                                          // Nếu Ok thì xóa sản phẩm khỏi giỏ hàng
+                                          listProducts[index].delete();
+                                          showSnackBar(context, "The product has been removed!", 2);
+                                        }
+                                        else {
+                                          // Không thì không làm gì hết
+                                          return;
+                                        }
                                       },
                                     ),
                                     Row(
@@ -143,7 +163,20 @@ class PageCart extends StatelessWidget {
                                             onPressed: () async {
                                               var amount = listProducts[index].productItem.amount-1;
                                               if(amount==0) {
-                                                listProducts[index].delete();
+                                                final result = await showConfirmDialog(
+                                                    context,
+                                                    "Delete",
+                                                    "Are you sure want to remove this product from your cart?"
+                                                );
+                                                if(result) {
+                                                  // Nếu Ok thì xóa sản phẩm khỏi giỏ hàng
+                                                  listProducts[index].delete();
+                                                  showSnackBar(context, "The product has been removed!", 2);
+                                                }
+                                                else {
+                                                  // Không thì không làm gì hết
+                                                  return;
+                                                }
                                               }
                                               else {
                                                 ProductItem product = ProductItem(
@@ -277,24 +310,21 @@ class PageCart extends StatelessWidget {
                                       // Nếu user hiện tại đã cập nhật thông tin
                                       if(currentUser!.user.isUpdated) {
                                         // Kiểm tra giỏ hàng có đồ hay không
-                                        if(listProducts.isEmpty) {
-                                          // Nếu không đồ
-                                          showSnackBar(context, "Nothing to pay", 3);
+                                        final result = await showConfirmDialog(
+                                            context,
+                                            "Pay Confirm",
+                                            "Are you sure want to pay all the products in your cart?"
+                                        );
+                                        if(result) {
+                                          // Nếu Ok thì thanh toán và xóa hết đồ trong giỏ hàng
+                                          for(var item in listProducts) {
+                                            item.delete();
+                                          }
+                                          showSnackBar(context, "Paid successfully, thanks for your payment!", 2);
                                         }
                                         else {
-                                          // Nếu có đồ trong giỏ hàng
-                                          // Hiển thị dialog xác nhận thanh toán
-                                          final result = await showConfirmDialog(context, "Pay Confirm");
-                                          if(result) {
-                                            // Nếu Ok thì thanh toán và xóa hết đồ trong giỏ hàng
-                                            for(var item in listProducts) {
-                                              item.delete();
-                                            }
-                                          }
-                                          else {
-                                            // Không thì không làm gì hết
-                                            return;
-                                          }
+                                          // Không thì không làm gì hết
+                                          return;
                                         }
                                       }
                                       // Nếu user hiện tại chưa cập nhật thông tin

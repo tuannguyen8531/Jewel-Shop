@@ -57,7 +57,7 @@ class ProductCard extends StatelessWidget {
             ),
             Text(name),
             Text(
-              "\$$price",
+              "\$ $price",
               style: const TextStyle(color: Colors.red),
             ),
           ],
@@ -312,7 +312,7 @@ void showSnackBar(BuildContext context, String message, int second) {
 }
 
 // Hàm bất đồng bộ hiển thị dialogxcs nhận thanh toán trong PageCart
-Future<bool> showConfirmDialog(BuildContext context, String title) async{
+Future<bool> showConfirmDialog(BuildContext context, String title, String text) async{
   bool result = false;
   var dialog = AlertDialog(
     title:Container(
@@ -338,8 +338,8 @@ Future<bool> showConfirmDialog(BuildContext context, String title) async{
       height: 100,
       width: 333,
       child: Column(
-        children: const [
-          Text("Are you sure want to pay all the products in your cart?"),
+        children: [
+          Text(text, textAlign: TextAlign.justify,),
         ],
       ),
     ),

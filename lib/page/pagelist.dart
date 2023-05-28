@@ -77,6 +77,11 @@ class PageTypes extends StatelessWidget {
                       gem.jewel.name.contains(type)
                   ) gems.add(gem);
                 }
+                if(gems.isEmpty) {
+                  return const Center(
+                    child: Text("No product found."),
+                  );
+                }
                 return Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: GridView.extent(
