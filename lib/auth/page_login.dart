@@ -442,7 +442,7 @@ class _PageLoginState extends State<PageLogin> {
         timeout: Duration(seconds: timeOut),
         verificationCompleted: (phoneAuthCredential)async {},
         verificationFailed: (error) {},
-        // Khi đã xác
+        // Khi đã kiểm tra đúng số điện thoại, gửi code xác thực
         codeSent: (verificationId, forceResendingToken) async {
           print("Verification ID: $verificationId");
               String? smsCode = smsTesCode;
